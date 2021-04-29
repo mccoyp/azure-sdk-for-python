@@ -4,7 +4,9 @@
 # ------------------------------------
 
 # pylint: disable=too-many-lines,too-many-public-methods
+import base64
 from ._shared import parse_key_vault_id
+from ._shared.models import SerializingMixin
 from ._generated.v7_1 import models
 from ._enums import(
     CertificatePolicyAction,
@@ -25,7 +27,7 @@ if TYPE_CHECKING:
     from datetime import datetime
 
 
-class AdministratorContact(object):
+class AdministratorContact(SerializingMixin):
     """Details of the organization administrator of the certificate issuer.
 
     :param str first_name: First name of the issuer.
@@ -139,7 +141,7 @@ class CertificateOperationError(object):
         return self._inner_error
 
 
-class CertificateProperties(object):
+class CertificateProperties(SerializingMixin):
     """Certificate properties consists of a certificates metadata.
     """
 
@@ -154,6 +156,43 @@ class CertificateProperties(object):
     def __repr__(self):
         # type () -> str
         return "<CertificateProperties [{}]>".format(self.id)[:1024]
+
+    @classmethod
+    def from_dict(cls, model_dict):
+        import calendar
+        import copy
+        from datetime import datetime
+        from msrest.serialization import Deserializer
+        import six
+
+        model_copy = copy.deepcopy(model_dict)
+        attributes_dict = model_copy["_attributes"]
+        for k, v in attributes_dict.items():
+            if isinstance(v, datetime):
+                # UNIX time from datetime object
+                attributes_dict[k] = int(calendar.timegm(v.utctimetuple()))
+            else:
+                try:
+                    # UNIX time from ISO format string
+                    attributes_dict[k] = int(calendar.timegm(Deserializer.deserialize_iso(v).utctimetuple()))
+                except:
+                    attributes_dict[k] = v
+        attributes = models.CertificateAttributes.from_dict(attributes_dict)
+
+        thumbprint = model_copy["_x509_thumbprint"]
+        try:
+            if isinstance(thumbprint, six.string_types):
+                thumbprint_padded = thumbprint + '=' * (4 - len(thumbprint) % 4)
+                thumbprint = base64.b64decode(thumbprint_padded)
+        except:
+            pass
+
+        return cls(
+            attributes=attributes,
+            cert_id=model_copy["_id"],
+            x509_thumbprint=thumbprint,
+            tags=model_copy["_tags"]
+        )
 
     @classmethod
     def _from_certificate_item(cls, certificate_item):
@@ -287,7 +326,7 @@ class CertificateProperties(object):
         return self._vault_id.version
 
 
-class KeyVaultCertificate(object):
+class KeyVaultCertificate(SerializingMixin):
     """Consists of a certificate and its attributes
 
     :param policy: The management policy for the certificate.
@@ -392,7 +431,7 @@ class KeyVaultCertificate(object):
         return self._cer
 
 
-class KeyVaultCertificateIdentifier(object):
+class KeyVaultCertificateIdentifier(SerializingMixin):
     """Information about a KeyVaultCertificate parsed from a certificate ID.
 
     :param str source_id: the full original identifier of a certificate
@@ -431,7 +470,7 @@ class KeyVaultCertificateIdentifier(object):
         return self._resource_id.version
 
 
-class CertificateOperation(object):
+class CertificateOperation(SerializingMixin):
     # pylint:disable=too-many-instance-attributes
     """A certificate operation is returned in case of long running requests.
 
@@ -615,7 +654,7 @@ class CertificateOperation(object):
         return self._request_id
 
 
-class CertificatePolicy(object):
+class CertificatePolicy(SerializingMixin):
     """Management policy for a certificate.
 
     :param str issuer_name: Name of the referenced issuer object or reserved names; for example,
@@ -1041,7 +1080,7 @@ class CertificatePolicy(object):
         return self._attributes.updated if self._attributes else None
 
 
-class CertificateContact(object):
+class CertificateContact(SerializingMixin):
     """The contact information for the vault certificates.
 
     :param str email: Email address of a contact for the certificate.
@@ -1088,7 +1127,7 @@ class CertificateContact(object):
         return self._phone
 
 
-class IssuerProperties(object):
+class IssuerProperties(SerializingMixin):
     """The properties of an issuer containing the issuer metadata.
 
     :param str provider: The issuer provider.
@@ -1130,7 +1169,7 @@ class IssuerProperties(object):
         return self._provider
 
 
-class CertificateIssuer(object):
+class CertificateIssuer(SerializingMixin):
     """The issuer for a Key Vault certificate.
 
     :param str provider: The issuer provider
@@ -1273,7 +1312,7 @@ class CertificateIssuer(object):
         return self._admin_contacts
 
 
-class LifetimeAction(object):
+class LifetimeAction(SerializingMixin):
     """Action and its trigger that will be performed by certificate Vault over the
     lifetime of a certificate.
 
