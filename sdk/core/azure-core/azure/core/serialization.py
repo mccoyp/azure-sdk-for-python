@@ -60,13 +60,17 @@ class ComplexEncoder(JSONEncoder):
             return super(ComplexEncoder, self).default(obj)
         except TypeError:
             obj_type = type(obj)
-            if obj_type is datetime.date:
+            if obj_type is datetime.date or obj_type is datetime.time:
                 return obj.isoformat()
             elif obj_type is datetime.datetime:
-                return obj.astimezone(TZ_UTC).isoformat()
+                try:
+                    return obj.astimezone(TZ_UTC).isoformat()
+                except ValueError:  # astimezone() fails on naive datetimes
+                    aware_datetime = obj.replace(tzinfo=TZ_UTC)
+                    return aware_datetime.isoformat()
             elif obj_type is datetime.timedelta:
                 return isodate.duration_isoformat(obj)
             elif obj_type is bytes or obj_type is bytearray:
-                return base64.b64encode(obj).decode('utf-8')
+                return base64.b64encode(obj).decode()
             else:
                 return super(ComplexEncoder, self).default(obj)
