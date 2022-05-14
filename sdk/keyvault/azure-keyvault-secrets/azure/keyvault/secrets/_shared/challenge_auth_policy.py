@@ -18,10 +18,7 @@ import time
 
 from azure.core.exceptions import ServiceRequestError
 from azure.core.pipeline import PipelineRequest
-from azure.core.pipeline.policies import BearerTokenCredentialPolicy
-
-from .http_challenge import HttpChallenge
-from . import http_challenge_cache as ChallengeCache
+from azure.core.pipeline.policies import BearerTokenChallengePolicy
 
 try:
     from typing import TYPE_CHECKING
@@ -29,9 +26,7 @@ except ImportError:
     TYPE_CHECKING = False
 
 if TYPE_CHECKING:
-    from typing import Any, Optional
-    from azure.core.credentials import AccessToken, TokenCredential
-    from azure.core.pipeline import PipelineResponse
+    from azure.core.pipeline import PipelineRequest, PipelineResponse
 
 
 def _enforce_tls(request):
@@ -42,37 +37,22 @@ def _enforce_tls(request):
         )
 
 
-def _update_challenge(request, challenger):
-    # type: (PipelineRequest, PipelineResponse) -> HttpChallenge
-    """parse challenge from challenger, cache it, return it"""
-
-    challenge = HttpChallenge(
-        request.http_request.url,
-        challenger.http_response.headers.get("WWW-Authenticate"),
-        response_headers=challenger.http_response.headers,
-    )
-    ChallengeCache.set_challenge_for_url(request.http_request.url, challenge)
-    return challenge
-
-
-class ChallengeAuthPolicy(BearerTokenCredentialPolicy):
+class ChallengeAuthPolicy(BearerTokenChallengePolicy):
     """policy for handling HTTP authentication challenges"""
-
-    def __init__(self, credential, *scopes, **kwargs):
-        # type: (TokenCredential, *str, **Any) -> None
-        super(ChallengeAuthPolicy, self).__init__(credential, *scopes, **kwargs)
-        self._credential = credential
-        self._token = None  # type: Optional[AccessToken]
 
     def on_request(self, request):
         # type: (PipelineRequest) -> None
+        """Called before the policy sends a request.
+
+        :param ~azure.core.pipeline.PipelineRequest request: the request
+        """
         _enforce_tls(request)
-        challenge = ChallengeCache.get_challenge_for_url(request.http_request.url)
+        challenge = self.challenge_cache.get_challenge_for_url(request.http_request.url)
         if challenge:
             # Note that if the vault has moved to a new tenant since our last request for it, this request will fail.
             if self._need_new_token:
                 # azure-identity credentials require an AADv2 scope but the challenge may specify an AADv1 resource
-                scope = challenge.get_scope() or challenge.get_resource() + "/.default"
+                scope = challenge.scope or challenge.resource + "/.default"
                 self._token = self._credential.get_token(scope, tenant_id=challenge.tenant_id)
 
             # ignore mypy's warning -- although self._token is Optional, get_token raises when it fails to get a token
@@ -88,20 +68,21 @@ class ChallengeAuthPolicy(BearerTokenCredentialPolicy):
             request.http_request.set_json_body(None)
             request.http_request.headers["Content-Length"] = "0"
 
-    def on_challenge(self, request, response):
-        # type: (PipelineRequest, PipelineResponse) -> bool
-        try:
-            challenge = _update_challenge(request, response)
-            # azure-identity credentials require an AADv2 scope but the challenge may specify an AADv1 resource
-            scope = challenge.get_scope() or challenge.get_resource() + "/.default"
-        except ValueError:
-            return False
+    def on_challenge(self, request: "PipelineRequest", response: "PipelineResponse") -> bool:
+        """Authorize request according to an authentication challenge
 
-        body = request.context.pop("key_vault_request_data", None)
-        request.http_request.set_text_body(body)  # no-op when text is None
-        self.authorize_request(request, scope, tenant_id=challenge.tenant_id)
+        This method is called when the resource provider responds 401 with a WWW-Authenticate header.
 
-        return True
+        :param ~azure.core.pipeline.PipelineRequest request: the request which elicited an authentication challenge
+        :param ~azure.core.pipeline.PipelineResponse response: the resource provider's response
+        :returns: a bool indicating whether the policy should send the request
+        """
+        # super attempts to fetch a token and add it to the request's Authorization header
+        result = super().on_challenge(request, response)
+        if result:
+            body = request.context.pop("key_vault_request_data", None)
+            request.http_request.set_text_body(body)  # no-op when text is None
+        return result
 
     @property
     def _need_new_token(self):

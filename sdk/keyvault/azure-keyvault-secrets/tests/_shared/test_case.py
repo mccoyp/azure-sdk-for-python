@@ -4,7 +4,7 @@
 # ------------------------------------
 import time
 
-from azure.keyvault.secrets._shared import HttpChallengeCache
+import azure.core.pipeline.policies._http_challenge_cache as HttpChallengeCache
 from devtools_testutils import AzureRecordedTestCase
 
 

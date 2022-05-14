@@ -17,34 +17,29 @@ protocol again.
 import time
 from typing import TYPE_CHECKING
 
-from azure.core.pipeline.policies import AsyncBearerTokenCredentialPolicy
+from azure.core.pipeline.policies import AsyncBearerTokenChallengePolicy
 
-from . import http_challenge_cache as ChallengeCache
-from .challenge_auth_policy import _enforce_tls, _update_challenge
+from .challenge_auth_policy import _enforce_tls
 
 if TYPE_CHECKING:
-    from typing import Any, Optional
-    from azure.core.credentials import AccessToken
-    from azure.core.credentials_async import AsyncTokenCredential
     from azure.core.pipeline import PipelineRequest, PipelineResponse
 
 
-class AsyncChallengeAuthPolicy(AsyncBearerTokenCredentialPolicy):
+class AsyncChallengeAuthPolicy(AsyncBearerTokenChallengePolicy):
     """policy for handling HTTP authentication challenges"""
 
-    def __init__(self, credential: "AsyncTokenCredential", *scopes: str, **kwargs: "Any") -> None:
-        super().__init__(credential, *scopes, **kwargs)
-        self._credential = credential
-        self._token = None  # type: Optional[AccessToken]
-
     async def on_request(self, request: "PipelineRequest") -> None:
+        """Called before the policy sends a request.
+
+        :param ~azure.core.pipeline.PipelineRequest request: the request
+        """
         _enforce_tls(request)
-        challenge = ChallengeCache.get_challenge_for_url(request.http_request.url)
+        challenge = self.challenge_cache.get_challenge_for_url(request.http_request.url)
         if challenge:
             # Note that if the vault has moved to a new tenant since our last request for it, this request will fail.
             if self._need_new_token:
                 # azure-identity credentials require an AADv2 scope but the challenge may specify an AADv1 resource
-                scope = challenge.get_scope() or challenge.get_resource() + "/.default"
+                scope = challenge.scope or challenge.resource + "/.default"
                 self._token = await self._credential.get_token(scope, tenant_id=challenge.tenant_id)
 
             # ignore mypy's warning -- although self._token is Optional, get_token raises when it fails to get a token
@@ -62,18 +57,20 @@ class AsyncChallengeAuthPolicy(AsyncBearerTokenCredentialPolicy):
 
 
     async def on_challenge(self, request: "PipelineRequest", response: "PipelineResponse") -> bool:
-        try:
-            challenge = _update_challenge(request, response)
-            # azure-identity credentials require an AADv2 scope but the challenge may specify an AADv1 resource
-            scope = challenge.get_scope() or challenge.get_resource() + "/.default"
-        except ValueError:
-            return False
+        """Authorize request according to an authentication challenge
 
-        body = request.context.pop("key_vault_request_data", None)
-        request.http_request.set_text_body(body)  # no-op when text is None
-        await self.authorize_request(request, scope, tenant_id=challenge.tenant_id)
+        This method is called when the resource provider responds 401 with a WWW-Authenticate header.
 
-        return True
+        :param ~azure.core.pipeline.PipelineRequest request: the request which elicited an authentication challenge
+        :param ~azure.core.pipeline.PipelineResponse response: the resource provider's response
+        :returns: a bool indicating whether the policy should send the request
+        """
+        # super attempts to fetch a token and add it to the request's Authorization header
+        result = await super().on_challenge(request, response)
+        if result:
+            body = request.context.pop("key_vault_request_data", None)
+            request.http_request.set_text_body(body)  # no-op when text is None
+        return result
 
     @property
     def _need_new_token(self) -> bool:
