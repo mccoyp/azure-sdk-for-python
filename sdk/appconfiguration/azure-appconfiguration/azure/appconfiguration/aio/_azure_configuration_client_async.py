@@ -76,6 +76,21 @@ class AzureAppConfigurationClient: # pylint: disable=client-accepts-api-version-
 
         self._credential_scopes = base_url.strip("/") + "/.default"
 
+        aad_mode = not isinstance(credential, AppConfigConnectionStringCredential)
+        if aad_mode:
+            scope = base_url.strip("/") + "/.default"
+            if hasattr(credential, "get_token"):
+                credential_policy = AsyncBearerTokenCredentialPolicy(
+                    credential, scope
+                )
+            else:
+                raise TypeError(
+                    "Please provide an instance from azure-identity "
+                    "or a class that implement the 'get_token protocol"
+                )
+        else:
+            credential_policy = AppConfigRequestsCredentialsPolicy(credential)
+
         self._config = AzureAppConfigurationConfiguration(
             credential, base_url, credential_scopes=self._credential_scopes, **kwargs  # type: ignore
         )
@@ -86,14 +101,14 @@ class AzureAppConfigurationClient: # pylint: disable=client-accepts-api-version-
         pipeline = kwargs.get("pipeline")
         self._sync_token_policy = AsyncSyncTokenPolicy()
 
-        if pipeline is None:
-            aad_mode = not isinstance(credential, AppConfigConnectionStringCredential)
-            pipeline = self._create_appconfig_pipeline(
-                credential=credential, aad_mode=aad_mode, base_url=base_url, **kwargs
-            )
-
+        # if pipeline is None:
+        #     aad_mode = not isinstance(credential, AppConfigConnectionStringCredential)
+        #     pipeline = self._create_appconfig_pipeline(
+        #         credential=credential, aad_mode=aad_mode, base_url=base_url, **kwargs
+        #     )
+        from azure.core.pipeline.transport import AsyncioRequestsTransport
         self._impl = AzureAppConfiguration(
-            credential, base_url, credential_scopes=self._credential_scopes, pipeline=pipeline  # type: ignore
+            credential, base_url, credential_scopes=self._credential_scopes, authentication_policy=credential_policy, user_agent_policy=self._config.user_agent_policy, per_call_policies=self._sync_token_policy, transport=AsyncioRequestsTransport(), **kwargs  # type: ignore
         )
 
     @classmethod
@@ -156,7 +171,8 @@ class AzureAppConfigurationClient: # pylint: disable=client-accepts-api-version-
             ]
 
         if not transport:
-            transport = AioHttpTransport(**kwargs)
+            from azure.core.pipeline.transport import AsyncioRequestsTransport
+            transport = AsyncioRequestsTransport(**kwargs)
 
         return AsyncPipeline(
             transport,
