@@ -106,9 +106,9 @@ class AzureAppConfigurationClient: # pylint: disable=client-accepts-api-version-
         #     pipeline = self._create_appconfig_pipeline(
         #         credential=credential, aad_mode=aad_mode, base_url=base_url, **kwargs
         #     )
-        from azure.core.pipeline.transport import AsyncioRequestsTransport
+        from azure.core.pipeline.transport import AsyncioRequestsTransport, AioHttpTransport
         self._impl = AzureAppConfiguration(
-            credential, base_url, credential_scopes=self._credential_scopes, authentication_policy=credential_policy, user_agent_policy=self._config.user_agent_policy, per_call_policies=self._sync_token_policy, transport=AsyncioRequestsTransport(), **kwargs  # type: ignore
+            credential, base_url, credential_scopes=self._credential_scopes, authentication_policy=credential_policy, user_agent_policy=self._config.user_agent_policy, per_call_policies=self._sync_token_policy, transport=AioHttpTransport(), **kwargs  # type: ignore
         )
 
     @classmethod
