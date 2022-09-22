@@ -1,6 +1,6 @@
 # Release History
 
-## 4.8.0b1 (Unreleased)
+## 4.8.0b1 (2022-09-22)
 
 ### Features Added
 - An attempt will be made to generate an IV if one isn't provided for local encryption
