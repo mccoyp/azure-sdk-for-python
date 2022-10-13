@@ -45,9 +45,11 @@ class ContainerRegistryChallengePolicy(HTTPPolicy):
         :param ~azure.core.pipeline.PipelineRequest request: the request
         """
         _enforce_https(request)
-
         self.on_request(request)
 
+        if request.http_request.body and hasattr(request.http_request.body, 'read'):
+            content = request.http_request.body.read()
+            request.http_request.body.seek(0, SEEK_SET)
         response = self.next.send(request)
 
         if response.http_response.status_code == 401:
@@ -56,7 +58,8 @@ class ContainerRegistryChallengePolicy(HTTPPolicy):
                 if request.http_request.body and hasattr(request.http_request.body, 'read'):
                     try:
                         # attempt to rewind the body to the initial position
-                        request.http_request.body.seek(0, SEEK_SET)
+                        from io import BytesIO
+                        request.http_request.body = BytesIO(content)
                     except (UnsupportedOperation, ValueError, AttributeError):
                         # if body is not seekable, then retry would not work
                         return response
