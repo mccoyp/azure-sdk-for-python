@@ -90,6 +90,7 @@ class DocumentModelAdministrationClient(FormRecognizerClientBase):
         super().__init__(
             endpoint=endpoint, credential=credential, api_version=api_version, client_kind="document", **kwargs
         )
+        self._require_https = kwargs.pop("require_https_polling", False)
 
     @overload
     def begin_build_document_model(
@@ -448,7 +449,7 @@ class DocumentModelAdministrationClient(FormRecognizerClientBase):
             else None,
             cls=kwargs.pop("cls", _copy_callback),
             polling=LROBasePolling(
-                timeout=polling_interval, lro_algorithms=[DocumentModelAdministrationPolling()], **kwargs
+                timeout=polling_interval, lro_algorithms=[DocumentModelAdministrationPolling(require_https=self._require_https, base_url=self._endpoint)], **kwargs
             ),
             continuation_token=continuation_token,
             **kwargs

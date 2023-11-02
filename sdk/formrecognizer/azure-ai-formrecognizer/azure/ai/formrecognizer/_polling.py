@@ -130,6 +130,13 @@ class DocumentModelAdministrationClientLROPoller(LROPoller[PollingReturnType_co]
 class DocumentModelAdministrationPolling(OperationResourcePolling):
     """Polling method overrides for training endpoints."""
 
+    def __init__(
+        self, require_https, base_url, *args, **kwargs
+    ):
+        super().__init__(*args, **kwargs)
+        self._require_https = require_https
+        self._base_url = base_url
+
     def get_final_get_url(self, pipeline_response: Any) -> None:
         """If a final GET is needed, returns the URL.
 
@@ -137,6 +144,22 @@ class DocumentModelAdministrationPolling(OperationResourcePolling):
         :rtype: None
         """
         return None
+
+    def get_polling_url(self) -> str:
+        """Return the polling URL.
+
+        Will extract it from the defined header to read (e.g. Operation-Location)
+
+        :return: The polling URL.
+        :rtype: str
+        """
+        # At this point, self._async_url is the value of the Operation-Location header
+        if not self._require_https:
+            return self._async_url
+        # Return the client's base endpoint, plus the second half of the header
+        # pull path from self._async_url
+        # append this to self._base_url
+        # return that
 
 
 class FormTrainingPolling(LocationPolling):

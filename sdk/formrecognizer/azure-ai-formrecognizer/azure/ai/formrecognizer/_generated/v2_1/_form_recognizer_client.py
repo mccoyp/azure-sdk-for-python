@@ -78,6 +78,7 @@ class FormRecognizerClient(FormRecognizerClientOperationsMixin):
         }
 
         request_copy.url = self._client.format_url(request_copy.url, **path_format_arguments)
+        breakpoint()
         return self._client.send_request(request_copy, **kwargs)
 
     def close(self):
