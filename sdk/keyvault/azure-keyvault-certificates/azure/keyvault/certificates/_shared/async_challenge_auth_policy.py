@@ -28,6 +28,7 @@ from azure.core.rest import HttpRequest
 from . import http_challenge_cache as ChallengeCache
 from .challenge_auth_policy import _enforce_tls, _update_challenge
 
+
 class AsyncChallengeAuthPolicy(AsyncBearerTokenCredentialPolicy):
     """Policy for handling HTTP authentication challenges.
 
@@ -74,7 +75,6 @@ class AsyncChallengeAuthPolicy(AsyncBearerTokenCredentialPolicy):
             )
             bodiless_request.headers["Content-Length"] = "0"
             request.http_request = bodiless_request
-
 
     async def on_challenge(self, request: PipelineRequest, response: PipelineResponse) -> bool:
         try:

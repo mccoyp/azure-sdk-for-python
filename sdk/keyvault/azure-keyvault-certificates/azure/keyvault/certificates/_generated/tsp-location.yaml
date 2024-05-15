@@ -1,0 +1,4 @@
+directory: specification/keyvault/data-plane/TypeSpec
+commit: 74e8d17a2baa137f8a883ebfa983af9abf13b8de
+repo: Azure/azure-rest-api-specs
+additionalDirectories:

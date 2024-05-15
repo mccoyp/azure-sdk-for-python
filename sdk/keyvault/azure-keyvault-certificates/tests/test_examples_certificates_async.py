@@ -42,7 +42,7 @@ async def test_create_certificate():
 class TestExamplesKeyVault(KeyVaultTestCase):
     @pytest.mark.asyncio
     @pytest.mark.parametrize("api_version", all_api_versions)
-    @AsyncCertificatesClientPreparer(logging_enable = True)
+    @AsyncCertificatesClientPreparer(logging_enable=True)
     @recorded_by_proxy_async
     async def test_example_certificate_crud_operations(self, certificate_client, **kwargs):
         cert_name = self.get_resource_name("cert-name")
@@ -115,7 +115,7 @@ class TestExamplesKeyVault(KeyVaultTestCase):
 
     @pytest.mark.asyncio
     @pytest.mark.parametrize("api_version", all_api_versions)
-    @AsyncCertificatesClientPreparer(logging_enable = True)
+    @AsyncCertificatesClientPreparer(logging_enable=True)
     @recorded_by_proxy_async
     async def test_example_certificate_list_operations(self, certificate_client, **kwargs):
         # specify the certificate policy
@@ -175,7 +175,7 @@ class TestExamplesKeyVault(KeyVaultTestCase):
 
     @pytest.mark.asyncio
     @pytest.mark.parametrize("api_version", exclude_2016_10_01)
-    @AsyncCertificatesClientPreparer(logging_enable = True)
+    @AsyncCertificatesClientPreparer(logging_enable=True)
     @recorded_by_proxy_async
     async def test_example_certificate_backup_restore(self, certificate_client, **kwargs):
         # specify the certificate policy
@@ -222,7 +222,7 @@ class TestExamplesKeyVault(KeyVaultTestCase):
 
     @pytest.mark.asyncio
     @pytest.mark.parametrize("api_version", all_api_versions)
-    @AsyncCertificatesClientPreparer(logging_enable = True)
+    @AsyncCertificatesClientPreparer(logging_enable=True)
     @recorded_by_proxy_async
     async def test_example_certificate_recover(self, certificate_client, **kwargs):
         # specify the certificate policy
@@ -261,7 +261,7 @@ class TestExamplesKeyVault(KeyVaultTestCase):
 
     @pytest.mark.asyncio
     @pytest.mark.parametrize("api_version", all_api_versions)
-    @AsyncCertificatesClientPreparer(logging_enable = True)
+    @AsyncCertificatesClientPreparer(logging_enable=True)
     @recorded_by_proxy_async
     async def test_example_contacts(self, certificate_client, **kwargs):
         # [START set_contacts]
@@ -301,7 +301,7 @@ class TestExamplesKeyVault(KeyVaultTestCase):
 
     @pytest.mark.asyncio
     @pytest.mark.parametrize("api_version", all_api_versions)
-    @AsyncCertificatesClientPreparer(logging_enable = True)
+    @AsyncCertificatesClientPreparer(logging_enable=True)
     @recorded_by_proxy_async
     async def test_example_issuers(self, certificate_client, **kwargs):
         # [START create_issuer]
