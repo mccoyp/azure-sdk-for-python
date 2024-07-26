@@ -395,3 +395,48 @@ def test_custom_hook_policy():
 
     client = SecretClient("...", object(), custom_hook_policy=CustomHookPolicy())
     assert isinstance(client._client._config.custom_hook_policy, CustomHookPolicy)
+
+
+class MockClient:
+    def __init__(self, client_class):
+        self.client = Mock(spec=client_class)
+
+    def __getattr__(self, attr):
+        return getattr(self.client, attr)
+
+def test_mocked_client():
+    client = MockClient(SecretClient)
+    breakpoint()
+    print(client)
+
+
+import os
+from typing import Optional, MutableMapping
+from azure.core.pipeline.transport import RequestsTransport
+from azure.core.rest import HttpRequest, HttpResponse
+
+class MockTransport(RequestsTransport):
+    def send(
+        self, request: HttpRequest, *, proxies: Optional[MutableMapping[str, str]] = None, **kwargs
+    ) -> HttpResponse:
+        return Mock(spec=HttpResponse, status_code=200, headers={}, content=b"")
+
+def test_mocked_transport():
+    client = SecretClient("https://fake-endpoint.vault.azure.net", Mock(), transport=MockTransport())
+    client.get_secret("secret-name")
+
+
+import inspect
+
+class MockedClient:
+    def __init__(self, client):
+        self.client = client
+        client.functions = [
+            func for func in inspect.getmembers(client, predicate=inspect.ismethod) if not func[0].startswith("_")
+        ]
+        breakpoint()
+        print(client.functions)
+
+def test_mocked_return_value():
+    client = SecretClient("https://vault.vault.azure.net", Mock())
+    mock_client = MockedClient(client)
