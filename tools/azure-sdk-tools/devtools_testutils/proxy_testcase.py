@@ -165,6 +165,11 @@ def transform_request(request: "HttpRequest", recording_id: str) -> None:
         headers["x-recording-upstream-base-uri"] = "{}://{}".format(parsed_result.scheme, parsed_result.netloc)
     headers["x-recording-id"] = recording_id
     headers["x-recording-mode"] = "record" if is_live() else "playback"
+    import traceback
+    frames = []
+    for frame in traceback.walk_stack(None):
+        frames.append(frame)
+    breakpoint()
     request.url = updated_target
 
 
@@ -197,6 +202,7 @@ def recorded_by_proxy(test_func: "Callable") -> None:
         def combined_call(*args, **kwargs):
             adjusted_args, adjusted_kwargs = transform_args(*args, **kwargs)
             result = original_transport_func(*adjusted_args, **adjusted_kwargs)
+            breakpoint()
 
             # make the x-recording-upstream-base-uri the URL of the request
             # this makes the request look like it was made to the original endpoint instead of to the proxy
