@@ -6,6 +6,8 @@
 import logging
 import six
 import os
+import re
+import traceback
 from typing import TYPE_CHECKING, Optional
 import urllib.parse as url_parse
 
@@ -155,6 +157,24 @@ def get_proxy_netloc() -> "Dict[str, str]":
     return {"scheme": parsed_result.scheme, "netloc": parsed_result.netloc}
 
 
+def get_client_function(request: "HttpRequest") -> Optional[str]:
+    """Returns the client function that made the current request.
+
+    Relies on a User-Agent header that contains the SDK package name. We crawl up the stack, using the package name, to
+    find the SDK client function that made the request.
+    """
+    match = re.search("(?<=azsdk-python-)([^/]*)", request.headers["User-Agent"])
+    if match:
+        package = match.group(1)
+        # Walk up the stack, starting from the current frame, until we hit the client-facing function call
+        for frame in traceback.walk_stack(None):
+            file_name = frame[0].f_code.co_filename
+            if package in file_name and "_generated" not in file_name:
+                breakpoint()
+                return frame[0].f_code.co_name
+    return None
+
+
 def transform_request(request: "HttpRequest", recording_id: str) -> None:
     """Redirect the request to the test proxy, and store the original request URI in a header"""
     headers = request.headers
@@ -165,11 +185,8 @@ def transform_request(request: "HttpRequest", recording_id: str) -> None:
         headers["x-recording-upstream-base-uri"] = "{}://{}".format(parsed_result.scheme, parsed_result.netloc)
     headers["x-recording-id"] = recording_id
     headers["x-recording-mode"] = "record" if is_live() else "playback"
-    import traceback
-    frames = []
-    for frame in traceback.walk_stack(None):
-        frames.append(frame)
-    breakpoint()
+
+    function_name = get_client_function(request)
     request.url = updated_target
 
 
@@ -202,7 +219,6 @@ def recorded_by_proxy(test_func: "Callable") -> None:
         def combined_call(*args, **kwargs):
             adjusted_args, adjusted_kwargs = transform_args(*args, **kwargs)
             result = original_transport_func(*adjusted_args, **adjusted_kwargs)
-            breakpoint()
 
             # make the x-recording-upstream-base-uri the URL of the request
             # this makes the request look like it was made to the original endpoint instead of to the proxy
