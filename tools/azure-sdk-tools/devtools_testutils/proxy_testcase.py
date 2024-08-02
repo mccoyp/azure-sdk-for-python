@@ -157,22 +157,34 @@ def get_proxy_netloc() -> "Dict[str, str]":
     return {"scheme": parsed_result.scheme, "netloc": parsed_result.netloc}
 
 
-def get_client_function(request: "HttpRequest") -> Optional[str]:
-    """Returns the client function that made the current request.
+def set_test_telemetry_header(request: "HttpRequest") -> None:
+    """Sets an "X-MS-AZSDK-Test-Telemetry" header on the request.
+
+    The header contains the request's package identifier (the <package_name> from the User-Agent header:
+    https://azure.github.io/azure-sdk/python_implementation.html#python-http-telemetry-useragent) and client method
+    being invoked to make the request. The package name and method name are in key=value pairs and separated by a
+    semicolon; e.g. "package=keyvault-secrets;method=set_secret".
 
     Relies on a User-Agent header that contains the SDK package name. We crawl up the stack, using the package name, to
-    find the SDK client function that made the request.
+    find the SDK client method that made the request.
     """
     match = re.search("(?<=azsdk-python-)([^/]*)", request.headers["User-Agent"])
     if match:
-        package = match.group(1)
+        package_name = match.group(1)
         # Walk up the stack, starting from the current frame, until we hit the client-facing function call
+        frames = []
         for frame in traceback.walk_stack(None):
+            frames.append(frame)
             file_name = frame[0].f_code.co_filename
-            if package in file_name and "_generated" not in file_name:
+            correct_package = f"azure-{package_name}" in file_name
+            if request.method == "GET":
                 breakpoint()
-                return frame[0].f_code.co_name
-    return None
+            if correct_package and "_generated" not in file_name:
+                if request.method == "GET":
+                    breakpoint()
+                client_method = frame[0].f_code.co_name
+                request.headers["X-MS-AZSDK-Test-Telemetry"] = f"package={package_name};method={client_method}"
+                return None
 
 
 def transform_request(request: "HttpRequest", recording_id: str) -> None:
@@ -185,8 +197,7 @@ def transform_request(request: "HttpRequest", recording_id: str) -> None:
         headers["x-recording-upstream-base-uri"] = "{}://{}".format(parsed_result.scheme, parsed_result.netloc)
     headers["x-recording-id"] = recording_id
     headers["x-recording-mode"] = "record" if is_live() else "playback"
-
-    function_name = get_client_function(request)
+    set_test_telemetry_header(request)
     request.url = updated_target
 
 
