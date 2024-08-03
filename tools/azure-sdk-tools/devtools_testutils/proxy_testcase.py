@@ -171,19 +171,21 @@ def set_test_telemetry_header(request: "HttpRequest") -> None:
     match = re.search("(?<=azsdk-python-)([^/]*)", request.headers["User-Agent"])
     if match:
         package_name = match.group(1)
+        path_name = package_name.replace("-", "/")
         # Walk up the stack, starting from the current frame, until we hit the client-facing function call
-        frames = []
         for frame in traceback.walk_stack(None):
-            frames.append(frame)
-            file_name = frame[0].f_code.co_filename
-            correct_package = f"azure-{package_name}" in file_name
-            if request.method == "GET":
-                breakpoint()
-            if correct_package and "_generated" not in file_name:
-                if request.method == "GET":
-                    breakpoint()
-                client_method = frame[0].f_code.co_name
-                request.headers["X-MS-AZSDK-Test-Telemetry"] = f"package={package_name};method={client_method}"
+            file_name = frame[0].f_code.co_filename.replace("\\", "/")
+            correct_package = f"azure/{path_name}/" in file_name
+            is_core = "azure/core/" in file_name
+            method_name = frame[0].f_code.co_name
+
+            # For paging or polling operations, the calling function may come from the generated level or Core library
+            client_method = correct_package and "_generated" not in file_name
+            paging_method = correct_package and "_generated" in file_name and method_name == "get_next"
+            polling_method = is_core and method_name == "request_status"
+
+            if client_method or paging_method or polling_method:
+                request.headers["X-MS-AZSDK-Test-Telemetry"] = f"package={package_name};method={method_name}"
                 return None
 
 
