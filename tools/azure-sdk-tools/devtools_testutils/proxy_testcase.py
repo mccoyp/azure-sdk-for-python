@@ -180,12 +180,14 @@ def set_test_telemetry_header(request: "HttpRequest") -> None:
             method_name = frame[0].f_code.co_name
 
             # For paging or polling operations, the calling function may come from the generated level or Core library
-            client_method = correct_package and "_generated" not in file_name
-            paging_method = correct_package and "_generated" in file_name and method_name == "get_next"
-            polling_method = is_core and method_name == "request_status"
+            client_func = correct_package and "_generated" not in file_name
+            paging_func = correct_package and "_generated" in file_name and method_name == "get_next"
+            polling_func = is_core and method_name == "request_status"
 
-            if client_method or paging_method or polling_method:
-                request.headers["X-MS-AZSDK-Test-Telemetry"] = f"package={package_name};method={method_name}"
+            method_type = "client" if client_func else "paging" if paging_func else "polling" if polling_func else None
+            if method_type:
+                header = f"package={package_name};method={method_name};type={method_type}"
+                request.headers["X-MS-AZSDK-Test-Telemetry"] = header
                 return None
 
 
