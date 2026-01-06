@@ -51,7 +51,7 @@ class TestStorageHandle(StorageRecordedTestCase):
         # don't run live, since the test set up was highly manual
         # only run when recording, or playing back in CI
     
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share = self.fsc.get_share_client(TEST_SHARE_NAME)
         root = share.get_directory_client()
 
@@ -71,7 +71,7 @@ class TestStorageHandle(StorageRecordedTestCase):
         # don't run live, since the test set up was highly manual
         # only run when recording, or playing back in CI
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share = self.fsc.get_share_client(TEST_SHARE_NAME, snapshot="2022-11-21T22:38:55.0000000Z")
         root = share.get_directory_client()
 
@@ -91,7 +91,7 @@ class TestStorageHandle(StorageRecordedTestCase):
         # don't run live, since the test set up was highly manual
         # only run when recording, or playing back in CI
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share = self.fsc.get_share_client(TEST_SHARE_NAME)
         root = share.get_directory_client()
 
@@ -128,7 +128,7 @@ class TestStorageHandle(StorageRecordedTestCase):
         # don't run live, since the test set up was highly manual
         # only run when recording, or playing back in CI
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share = self.fsc.get_share_client(TEST_SHARE_NAME)
         dir = share.get_directory_client('testdir')
 
@@ -154,7 +154,7 @@ class TestStorageHandle(StorageRecordedTestCase):
         # don't run live, since the test set up was highly manual
         # only run when recording, or playing back in CI
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share = self.fsc.get_share_client(TEST_SHARE_NAME)
         client = share.get_file_client('testdir/test.txt')
 
@@ -174,7 +174,7 @@ class TestStorageHandle(StorageRecordedTestCase):
         # don't run live, since the test set up was highly manual
         # only run when recording, or playing back in CI
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share = self.fsc.get_share_client(TEST_SHARE_NAME)
         root = share.get_directory_client()
         handles = list(root.list_handles(recursive=True))
@@ -200,7 +200,7 @@ class TestStorageHandle(StorageRecordedTestCase):
         # don't run live, since the test set up was highly manual
         # only run when recording, or playing back in CI
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share = self.fsc.get_share_client(TEST_SHARE_NAME)
         root = share.get_directory_client()
         handles = list(root.list_handles(recursive=True))
@@ -223,7 +223,7 @@ class TestStorageHandle(StorageRecordedTestCase):
         # don't run live, since the test set up was highly manual
         # only run when recording, or playing back in CI
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share = self.fsc.get_share_client('mytestshare')
         root = share.get_directory_client('testdir')
         file_client = root.get_file_client('testfile.txt')

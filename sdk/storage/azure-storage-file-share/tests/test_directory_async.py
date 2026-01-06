@@ -58,7 +58,7 @@ class TestStorageDirectoryAsync(AsyncStorageRecordedTestCase):
         storage_account_key = kwargs.pop("storage_account_key")
 
         # Arrange
-        await self._setup(storage_account_name, storage_account_key)
+        await self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
 
         # Act
@@ -74,7 +74,7 @@ class TestStorageDirectoryAsync(AsyncStorageRecordedTestCase):
         storage_account_key = kwargs.pop("storage_account_key")
 
         # Arrange
-        await self._setup(storage_account_name, storage_account_key)
+        await self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
         metadata = {'hello': 'world', 'number': '42'}
 
@@ -92,7 +92,7 @@ class TestStorageDirectoryAsync(AsyncStorageRecordedTestCase):
         storage_account_key = kwargs.pop("storage_account_key")
 
         # Arrange
-        await self._setup(storage_account_name, storage_account_key)
+        await self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
 
         # Act
@@ -110,7 +110,7 @@ class TestStorageDirectoryAsync(AsyncStorageRecordedTestCase):
         storage_account_key = kwargs.pop("storage_account_key")
 
         # Arrange
-        await self._setup(storage_account_name, storage_account_key)
+        await self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
 
         directory_client = share_client.get_directory_client('dir1')
@@ -141,7 +141,7 @@ class TestStorageDirectoryAsync(AsyncStorageRecordedTestCase):
         token_credential = self.get_credential(ShareServiceClient, is_async=True)
 
         # Arrange
-        await self._setup(storage_account_name, storage_account_key)
+        await self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
 
         directory_client = ShareDirectoryClient(
@@ -163,14 +163,14 @@ class TestStorageDirectoryAsync(AsyncStorageRecordedTestCase):
         storage_account_key = kwargs.pop("storage_account_key")
 
         # Arrange
-        await self._setup(storage_account_name, storage_account_key)
+        await self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
         directory_name = 'dir1'
 
         directory_client = ShareDirectoryClient(
             self.account_url(storage_account_name, 'file'),
             share_client.share_name, directory_name + '.',
-            credential=storage_account_key,
+            credential=storage_account_key.secret,
             allow_trailing_dot=True)
 
         # Act
@@ -187,7 +187,7 @@ class TestStorageDirectoryAsync(AsyncStorageRecordedTestCase):
         storage_account_key = kwargs.pop("storage_account_key")
 
         # Arrange
-        await self._setup(storage_account_name, storage_account_key)
+        await self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
         directory = await share_client.create_directory('dir1')
 
@@ -206,7 +206,7 @@ class TestStorageDirectoryAsync(AsyncStorageRecordedTestCase):
         storage_account_key = kwargs.pop("storage_account_key")
 
         # Arrange
-        await self._setup(storage_account_name, storage_account_key)
+        await self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
         directory = await share_client.create_directory('dir1')
         metadata = {'hello': 'world', 'number': '42'}
@@ -226,7 +226,7 @@ class TestStorageDirectoryAsync(AsyncStorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        await self._setup(storage_account_name, storage_account_key)
+        await self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
         await share_client.create_directory('dir1')
 
@@ -251,7 +251,7 @@ class TestStorageDirectoryAsync(AsyncStorageRecordedTestCase):
         storage_account_key = kwargs.pop("storage_account_key")
 
         # Arrange
-        await self._setup(storage_account_name, storage_account_key)
+        await self._setup(storage_account_name, storage_account_key.secret)
         file_data = b'12345678' * 1024
         file_name = self.get_resource_name('file')
         share_client = self.fsc.get_share_client(self.share_name)
@@ -272,7 +272,7 @@ class TestStorageDirectoryAsync(AsyncStorageRecordedTestCase):
         storage_account_key = kwargs.pop("storage_account_key")
 
         # Arrange
-        await self._setup(storage_account_name, storage_account_key)
+        await self._setup(storage_account_name, storage_account_key.secret)
         file_name = self.get_resource_name('file')
         share_client = self.fsc.get_share_client(self.share_name)
         directory = await share_client.create_directory('dir1')
@@ -293,7 +293,7 @@ class TestStorageDirectoryAsync(AsyncStorageRecordedTestCase):
         storage_account_key = kwargs.pop("storage_account_key")
 
         # Arrange
-        await self._setup(storage_account_name, storage_account_key)
+        await self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
         directory = await share_client.create_directory('dir1')
         await directory.create_subdirectory('dir2')
@@ -314,7 +314,7 @@ class TestStorageDirectoryAsync(AsyncStorageRecordedTestCase):
         storage_account_key = kwargs.pop("storage_account_key")
 
         # Arrange
-        await self._setup(storage_account_name, storage_account_key)
+        await self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
         directory = await share_client.create_directory('dir1')
 
@@ -334,7 +334,7 @@ class TestStorageDirectoryAsync(AsyncStorageRecordedTestCase):
         token_credential = self.get_credential(ShareServiceClient, is_async=True)
 
         # Arrange
-        await self._setup(storage_account_name, storage_account_key)
+        await self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
 
         directory_client = ShareDirectoryClient(
@@ -359,7 +359,7 @@ class TestStorageDirectoryAsync(AsyncStorageRecordedTestCase):
         storage_account_key = kwargs.pop("storage_account_key")
 
         # Arrange
-        await self._setup(storage_account_name, storage_account_key)
+        await self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
         metadata = {"test1": "foo", "test2": "bar"}
         directory = await share_client.create_directory('dir1', metadata=metadata)
@@ -385,12 +385,12 @@ class TestStorageDirectoryAsync(AsyncStorageRecordedTestCase):
         storage_account_key = kwargs.pop("storage_account_key")
 
         # Arrange
-        await self._setup(storage_account_name, storage_account_key)
+        await self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
         directory = ShareDirectoryClient(
             self.account_url(storage_account_name, 'file'),
             share_client.share_name, 'dir1.',
-            credential=storage_account_key,
+            credential=storage_account_key.secret,
             allow_trailing_dot=True)
 
         # Act
@@ -409,7 +409,7 @@ class TestStorageDirectoryAsync(AsyncStorageRecordedTestCase):
         storage_account_key = kwargs.pop("storage_account_key")
 
         # Arrange
-        await self._setup(storage_account_name, storage_account_key)
+        await self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
         metadata = {"test1": "foo", "test2": "bar"}
         directory = await share_client.create_directory('dir1', metadata=metadata)
@@ -433,7 +433,7 @@ class TestStorageDirectoryAsync(AsyncStorageRecordedTestCase):
         storage_account_key = kwargs.pop("storage_account_key")
 
         # Arrange
-        await self._setup(storage_account_name, storage_account_key)
+        await self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
         directory = share_client.get_directory_client('dir1')
 
@@ -449,7 +449,7 @@ class TestStorageDirectoryAsync(AsyncStorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        await self._setup(storage_account_name, storage_account_key)
+        await self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
         directory = await share_client.create_directory('dir1')
 
@@ -467,7 +467,7 @@ class TestStorageDirectoryAsync(AsyncStorageRecordedTestCase):
         storage_account_key = kwargs.pop("storage_account_key")
 
         # Arrange
-        await self._setup(storage_account_name, storage_account_key)
+        await self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
         directory = await share_client.create_directory('dir1')
 
@@ -484,7 +484,7 @@ class TestStorageDirectoryAsync(AsyncStorageRecordedTestCase):
         storage_account_key = kwargs.pop("storage_account_key")
 
         # Arrange
-        await self._setup(storage_account_name, storage_account_key)
+        await self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
         directory = share_client.get_directory_client('dir1')
 
@@ -501,7 +501,7 @@ class TestStorageDirectoryAsync(AsyncStorageRecordedTestCase):
         storage_account_key = kwargs.pop("storage_account_key")
 
         # Arrange
-        await self._setup(storage_account_name, storage_account_key)
+        await self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
         directory = share_client.get_directory_client('missing1/missing2')
 
@@ -519,7 +519,7 @@ class TestStorageDirectoryAsync(AsyncStorageRecordedTestCase):
         storage_account_key = kwargs.pop("storage_account_key")
 
         # Arrange
-        await self._setup(storage_account_name, storage_account_key)
+        await self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
         directory = await share_client.create_directory('dir1')
         snapshot = await share_client.create_snapshot()
@@ -540,7 +540,7 @@ class TestStorageDirectoryAsync(AsyncStorageRecordedTestCase):
         storage_account_key = kwargs.pop("storage_account_key")
 
         # Arrange
-        await self._setup(storage_account_name, storage_account_key)
+        await self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
         snapshot = await share_client.create_snapshot()
         directory = await share_client.create_directory('dir1')
@@ -561,7 +561,7 @@ class TestStorageDirectoryAsync(AsyncStorageRecordedTestCase):
         storage_account_key = kwargs.pop("storage_account_key")
 
         # Arrange
-        await self._setup(storage_account_name, storage_account_key)
+        await self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
         directory = await share_client.create_directory('dir1')
         metadata = {'hello': 'world', 'number': '43'}
@@ -581,7 +581,7 @@ class TestStorageDirectoryAsync(AsyncStorageRecordedTestCase):
         token_credential = self.get_credential(ShareServiceClient, is_async=True)
 
         # Arrange
-        await self._setup(storage_account_name, storage_account_key)
+        await self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
         directory_client = ShareDirectoryClient(
             self.account_url(storage_account_name, 'file'),
@@ -605,7 +605,7 @@ class TestStorageDirectoryAsync(AsyncStorageRecordedTestCase):
         storage_account_key = kwargs.pop("storage_account_key")
 
         # Arrange
-        await self._setup(storage_account_name, storage_account_key)
+        await self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
         directory_client = await share_client.create_directory('dir1')
         directory_properties_on_creation = await directory_client.get_directory_properties()
@@ -627,7 +627,7 @@ class TestStorageDirectoryAsync(AsyncStorageRecordedTestCase):
         storage_account_key = kwargs.pop("storage_account_key")
         token_credential = self.get_credential(ShareServiceClient, is_async=True)
 
-        await self._setup(storage_account_name, storage_account_key)
+        await self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
 
         directory_client = ShareDirectoryClient(
@@ -669,7 +669,7 @@ class TestStorageDirectoryAsync(AsyncStorageRecordedTestCase):
         storage_account_key = kwargs.pop("storage_account_key")
 
         # Arrange
-        await self._setup(storage_account_name, storage_account_key)
+        await self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
         directory_client = await share_client.create_directory('dir1')
 
@@ -704,12 +704,12 @@ class TestStorageDirectoryAsync(AsyncStorageRecordedTestCase):
         storage_account_key = kwargs.pop("storage_account_key")
 
         # Arrange
-        await self._setup(storage_account_name, storage_account_key)
+        await self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
         directory_client = ShareDirectoryClient(
             self.account_url(storage_account_name, 'file'),
             share_client.share_name, 'dir1.',
-            credential=storage_account_key,
+            credential=storage_account_key.secret,
             allow_trailing_dot=True)
         await directory_client.create_directory()
 
@@ -744,7 +744,7 @@ class TestStorageDirectoryAsync(AsyncStorageRecordedTestCase):
         storage_account_key = kwargs.pop("storage_account_key")
 
         # Arrange
-        await self._setup(storage_account_name, storage_account_key)
+        await self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
         directory = await share_client.create_directory('dir1')
         await asyncio.gather(
@@ -787,7 +787,7 @@ class TestStorageDirectoryAsync(AsyncStorageRecordedTestCase):
         token_credential = self.get_credential(ShareServiceClient, is_async=True)
 
         # Arrange
-        await self._setup(storage_account_name, storage_account_key)
+        await self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
 
         directory_client = ShareDirectoryClient(
@@ -837,12 +837,12 @@ class TestStorageDirectoryAsync(AsyncStorageRecordedTestCase):
         storage_account_key = kwargs.pop("storage_account_key")
 
         # Arrange
-        await self._setup(storage_account_name, storage_account_key)
+        await self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
         directory = ShareDirectoryClient(
             self.account_url(storage_account_name, 'file'),
             share_client.share_name, 'dir1.',
-            credential=storage_account_key,
+            credential=storage_account_key.secret,
             allow_trailing_dot=True)
         await directory.create_directory()
         await asyncio.gather(
@@ -872,7 +872,7 @@ class TestStorageDirectoryAsync(AsyncStorageRecordedTestCase):
         storage_account_key = kwargs.pop("storage_account_key")
 
         # Arrange
-        await self._setup(storage_account_name, storage_account_key)
+        await self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
         directory = await share_client.create_directory('dir1\uFFFE')
         await asyncio.gather(
@@ -898,7 +898,7 @@ class TestStorageDirectoryAsync(AsyncStorageRecordedTestCase):
         storage_account_key = kwargs.pop("storage_account_key")
 
         # Arrange
-        await self._setup(storage_account_name, storage_account_key)
+        await self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
         directory = await share_client.create_directory('\uFFFFdir1')
         await asyncio.gather(
@@ -924,7 +924,7 @@ class TestStorageDirectoryAsync(AsyncStorageRecordedTestCase):
         storage_account_key = kwargs.pop("storage_account_key")
 
         # Arrange
-        await self._setup(storage_account_name, storage_account_key)
+        await self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
         directory = await share_client.create_directory('dir1')
         await asyncio.gather(
@@ -961,7 +961,7 @@ class TestStorageDirectoryAsync(AsyncStorageRecordedTestCase):
         storage_account_key = kwargs.pop("storage_account_key")
 
         # Arrange
-        await self._setup(storage_account_name, storage_account_key)
+        await self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
         directory = await share_client.create_directory('dir1')
         await asyncio.gather(
@@ -984,7 +984,7 @@ class TestStorageDirectoryAsync(AsyncStorageRecordedTestCase):
         storage_account_key = kwargs.pop("storage_account_key")
 
         # Arrange
-        await self._setup(storage_account_name, storage_account_key)
+        await self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
         directory = await share_client.create_directory('dir1')
         await asyncio.gather(
@@ -1016,7 +1016,7 @@ class TestStorageDirectoryAsync(AsyncStorageRecordedTestCase):
         storage_account_key = kwargs.pop("storage_account_key")
 
         # Arrange
-        await self._setup(storage_account_name, storage_account_key)
+        await self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
         directory = await share_client.create_directory('dir1')
         await asyncio.gather(
@@ -1055,7 +1055,7 @@ class TestStorageDirectoryAsync(AsyncStorageRecordedTestCase):
         storage_account_key = kwargs.pop("storage_account_key")
 
         # Arrange
-        await self._setup(storage_account_name, storage_account_key)
+        await self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
         directory = await share_client.create_directory('dir1')
         subdir = await directory.create_subdirectory("subdir1")
@@ -1085,7 +1085,7 @@ class TestStorageDirectoryAsync(AsyncStorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        await self._setup(storage_account_name, storage_account_key)
+        await self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
         directory_name, prefix = "dir", "samples_"
         directory = await share_client.create_directory(directory_name)
@@ -1112,7 +1112,7 @@ class TestStorageDirectoryAsync(AsyncStorageRecordedTestCase):
         storage_account_key = kwargs.pop("storage_account_key")
 
         # Arrange
-        await self._setup(storage_account_name, storage_account_key)
+        await self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
         directory = await share_client.create_directory('dir1')
 
@@ -1132,7 +1132,7 @@ class TestStorageDirectoryAsync(AsyncStorageRecordedTestCase):
         token_credential = self.get_credential(ShareServiceClient, is_async=True)
 
         # Arrange
-        await self._setup(storage_account_name, storage_account_key)
+        await self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
 
         directory_client = ShareDirectoryClient(
@@ -1157,13 +1157,13 @@ class TestStorageDirectoryAsync(AsyncStorageRecordedTestCase):
         storage_account_key = kwargs.pop("storage_account_key")
 
         # Arrange
-        await self._setup(storage_account_name, storage_account_key)
+        await self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
 
         directory = ShareDirectoryClient(
             self.account_url(storage_account_name, 'file'),
             share_client.share_name, 'dir1.',
-            credential=storage_account_key,
+            credential=storage_account_key.secret,
             allow_trailing_dot=True)
 
         # Act
@@ -1182,7 +1182,7 @@ class TestStorageDirectoryAsync(AsyncStorageRecordedTestCase):
         storage_account_key = kwargs.pop("storage_account_key")
 
         # Arrange
-        await self._setup(storage_account_name, storage_account_key)
+        await self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
         directory = share_client.get_directory_client('dir1')
 
@@ -1199,7 +1199,7 @@ class TestStorageDirectoryAsync(AsyncStorageRecordedTestCase):
         storage_account_key = kwargs.pop("storage_account_key")
 
         # Arrange
-        await self._setup(storage_account_name, storage_account_key)
+        await self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
         directory = await share_client.create_directory('dir1')
 
@@ -1219,7 +1219,7 @@ class TestStorageDirectoryAsync(AsyncStorageRecordedTestCase):
         storage_account_key = kwargs.pop("storage_account_key")
 
         # Arrange
-        await self._setup(storage_account_name, storage_account_key)
+        await self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
 
         source_directory = await share_client.create_directory('dir1')
@@ -1239,7 +1239,7 @@ class TestStorageDirectoryAsync(AsyncStorageRecordedTestCase):
         token_credential = self.get_credential(ShareServiceClient, is_async=True)
 
         # Arrange
-        await self._setup(storage_account_name, storage_account_key)
+        await self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
 
         directory_client = ShareDirectoryClient(
@@ -1263,7 +1263,7 @@ class TestStorageDirectoryAsync(AsyncStorageRecordedTestCase):
         storage_account_key = kwargs.pop("storage_account_key")
 
         # Arrange
-        await self._setup(storage_account_name, storage_account_key)
+        await self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
 
         parent_source_directory = await share_client.create_directory('dir1')
@@ -1286,7 +1286,7 @@ class TestStorageDirectoryAsync(AsyncStorageRecordedTestCase):
         storage_account_key = kwargs.pop("storage_account_key")
 
         # Arrange
-        await self._setup(storage_account_name, storage_account_key)
+        await self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
 
         source_directory = await share_client.create_directory('dir1')
@@ -1313,7 +1313,7 @@ class TestStorageDirectoryAsync(AsyncStorageRecordedTestCase):
         storage_account_key = kwargs.pop("storage_account_key")
 
         # Arrange
-        await self._setup(storage_account_name, storage_account_key)
+        await self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
         file_permission_key = await share_client.create_permission_for_share(TEST_FILE_PERMISSIONS)
 
@@ -1334,7 +1334,7 @@ class TestStorageDirectoryAsync(AsyncStorageRecordedTestCase):
         storage_account_key = kwargs.pop("storage_account_key")
 
         # Arrange
-        await self._setup(storage_account_name, storage_account_key)
+        await self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
 
         source_directory = await share_client.create_directory('dir1', file_permission=TEST_FILE_PERMISSIONS)
@@ -1356,7 +1356,7 @@ class TestStorageDirectoryAsync(AsyncStorageRecordedTestCase):
         storage_account_key = kwargs.pop("storage_account_key")
 
         # Arrange
-        await self._setup(storage_account_name, storage_account_key)
+        await self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
 
         source_directory = await share_client.create_directory('dir1')
@@ -1390,7 +1390,7 @@ class TestStorageDirectoryAsync(AsyncStorageRecordedTestCase):
         storage_account_key = kwargs.pop("storage_account_key")
 
         # Arrange
-        await self._setup(storage_account_name, storage_account_key)
+        await self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
 
         source_directory = await share_client.create_directory('dir1')
@@ -1415,7 +1415,7 @@ class TestStorageDirectoryAsync(AsyncStorageRecordedTestCase):
         storage_account_key = kwargs.pop("storage_account_key")
 
         # Arrange
-        await self._setup(storage_account_name, storage_account_key)
+        await self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
 
         token = self.generate_sas(
@@ -1446,14 +1446,14 @@ class TestStorageDirectoryAsync(AsyncStorageRecordedTestCase):
         storage_account_key = kwargs.pop("storage_account_key")
 
         # Arrange
-        await self._setup(storage_account_name, storage_account_key)
+        await self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
         dest_dir_name = 'dir2' + '.'
 
         directory_client = ShareDirectoryClient(
             self.account_url(storage_account_name, 'file'),
             share_client.share_name, 'dir1.',
-            credential=storage_account_key,
+            credential=storage_account_key.secret,
             allow_trailing_dot=True,
             allow_source_trailing_dot=True)
 
@@ -1471,12 +1471,12 @@ class TestStorageDirectoryAsync(AsyncStorageRecordedTestCase):
         storage_account_key = kwargs.pop("storage_account_key")
 
         # Arrange
-        await self._setup(storage_account_name, storage_account_key)
+        await self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
         directory_client = ShareDirectoryClient(
             self.account_url(storage_account_name, 'file'),
             share_client.share_name, 'dir1.',
-            credential=storage_account_key
+            credential=storage_account_key.secret
         )
         await directory_client.exists()
 
@@ -1501,12 +1501,12 @@ class TestStorageDirectoryAsync(AsyncStorageRecordedTestCase):
         storage_account_key = kwargs.pop("storage_account_key")
 
         # Arrange
-        await self._setup(storage_account_name, storage_account_key)
+        await self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
         directory_client = ShareDirectoryClient(
             self.account_url(storage_account_name, 'file'),
             share_client.share_name, 'dir1.',
-            credential=storage_account_key
+            credential=storage_account_key.secret
         )
         await directory_client.exists()
 
@@ -1529,7 +1529,7 @@ class TestStorageDirectoryAsync(AsyncStorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        await self._setup(storage_account_name, storage_account_key)
+        await self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
         user_given_permission_sddl = ("O:S-1-5-21-2127521184-1604012920-1887927527-21560751G:S-1-5-21-2127521184-"
                                       "1604012920-1887927527-513D:AI(A;;FA;;;SY)(A;;FA;;;BA)(A;;0x1200a9;;;"

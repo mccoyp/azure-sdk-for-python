@@ -56,7 +56,7 @@ class TestStorageDirectory(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
 
         # Act
@@ -71,7 +71,7 @@ class TestStorageDirectory(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
         metadata = {'hello': 'world', 'number': '42'}
 
@@ -88,7 +88,7 @@ class TestStorageDirectory(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
 
         # Act
@@ -105,7 +105,7 @@ class TestStorageDirectory(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
 
         directory_client = share_client.get_directory_client('dir1')
@@ -135,7 +135,7 @@ class TestStorageDirectory(StorageRecordedTestCase):
         storage_account_key = kwargs.pop("storage_account_key")
         token_credential = self.get_credential(ShareServiceClient)
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
 
         directory_client = ShareDirectoryClient(
@@ -156,14 +156,14 @@ class TestStorageDirectory(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
         directory_name = 'dir1'
 
         directory_client = ShareDirectoryClient(
             self.account_url(storage_account_name, 'file'),
             share_client.share_name, directory_name + '.',
-            credential=storage_account_key,
+            credential=storage_account_key.secret,
             allow_trailing_dot=True)
 
         # Act
@@ -179,7 +179,7 @@ class TestStorageDirectory(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
         directory = share_client.create_directory('dir1')
 
@@ -196,7 +196,7 @@ class TestStorageDirectory(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
         directory = share_client.create_directory('dir1')
         metadata = {'hello': 'world', 'number': '42'}
@@ -216,7 +216,7 @@ class TestStorageDirectory(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
         share_client.create_directory('dir1')
 
@@ -238,7 +238,7 @@ class TestStorageDirectory(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         file_data = b'12345678' * 1024
         file_name = self.get_resource_name('file')
         share_client = self.fsc.get_share_client(self.share_name)
@@ -257,7 +257,7 @@ class TestStorageDirectory(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         file_name = self.get_resource_name('file')
         share_client = self.fsc.get_share_client(self.share_name)
         directory = share_client.create_directory('dir1')
@@ -277,7 +277,7 @@ class TestStorageDirectory(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
         directory = share_client.create_directory('dir1')
 
@@ -292,7 +292,7 @@ class TestStorageDirectory(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
         directory = share_client.create_directory('dir1')
         directory.create_subdirectory('dir2')
@@ -312,7 +312,7 @@ class TestStorageDirectory(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
         directory = share_client.create_directory('dir1')
 
@@ -331,7 +331,7 @@ class TestStorageDirectory(StorageRecordedTestCase):
         storage_account_key = kwargs.pop("storage_account_key")
         token_credential = self.get_credential(ShareServiceClient)
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
 
         directory_client = ShareDirectoryClient(
@@ -355,7 +355,7 @@ class TestStorageDirectory(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
         metadata = {"test1": "foo", "test2": "bar"}
         directory = share_client.create_directory('dir1', metadata=metadata)
@@ -380,12 +380,12 @@ class TestStorageDirectory(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
         directory = ShareDirectoryClient(
             self.account_url(storage_account_name, 'file'),
             share_client.share_name, 'dir1.',
-            credential=storage_account_key,
+            credential=storage_account_key.secret,
             allow_trailing_dot=True)
 
         # Act
@@ -403,7 +403,7 @@ class TestStorageDirectory(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
         metadata = {"test1": "foo", "test2": "bar"}
         directory = share_client.create_directory('dir1', metadata=metadata)
@@ -426,7 +426,7 @@ class TestStorageDirectory(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
         directory = share_client.get_directory_client('dir1')
 
@@ -442,7 +442,7 @@ class TestStorageDirectory(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
         directory = share_client.create_directory('dir1')
 
@@ -458,7 +458,7 @@ class TestStorageDirectory(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
         directory = share_client.get_directory_client('dir1')
 
@@ -474,7 +474,7 @@ class TestStorageDirectory(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
         directory = share_client.get_directory_client('missing1/missing2')
 
@@ -491,7 +491,7 @@ class TestStorageDirectory(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
         directory = share_client.create_directory('dir1')
         snapshot = share_client.create_snapshot()
@@ -511,7 +511,7 @@ class TestStorageDirectory(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
         snapshot = share_client.create_snapshot()
         directory = share_client.create_directory('dir1')
@@ -531,7 +531,7 @@ class TestStorageDirectory(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
         directory = share_client.create_directory('dir1')
         metadata = {'hello': 'world', 'number': '43'}
@@ -550,7 +550,7 @@ class TestStorageDirectory(StorageRecordedTestCase):
         storage_account_key = kwargs.pop("storage_account_key")
         token_credential = self.get_credential(ShareServiceClient)
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
         directory_client = ShareDirectoryClient(
             self.account_url(storage_account_name, 'file'),
@@ -573,7 +573,7 @@ class TestStorageDirectory(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
         directory_client = share_client.create_directory('dir1')
         directory_properties_on_creation = directory_client.get_directory_properties()
@@ -595,7 +595,7 @@ class TestStorageDirectory(StorageRecordedTestCase):
         storage_account_key = kwargs.pop("storage_account_key")
         token_credential = self.get_credential(ShareServiceClient)
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
 
         directory_client = ShareDirectoryClient(
@@ -636,7 +636,7 @@ class TestStorageDirectory(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
         directory_client = share_client.create_directory('dir1')
 
@@ -671,12 +671,12 @@ class TestStorageDirectory(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
         directory_client = ShareDirectoryClient(
             self.account_url(storage_account_name, 'file'),
             share_client.share_name, 'dir1.',
-            credential=storage_account_key,
+            credential=storage_account_key.secret,
             allow_trailing_dot=True)
         directory_client.create_directory()
 
@@ -711,7 +711,7 @@ class TestStorageDirectory(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
         directory = share_client.create_directory('dir1')
         directory.create_subdirectory("subdir1")
@@ -746,7 +746,7 @@ class TestStorageDirectory(StorageRecordedTestCase):
         storage_account_key = kwargs.pop("storage_account_key")
         token_credential = self.get_credential(ShareServiceClient)
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
 
         directory_client = ShareDirectoryClient(
@@ -788,12 +788,12 @@ class TestStorageDirectory(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
         directory = ShareDirectoryClient(
             self.account_url(storage_account_name, 'file'),
             share_client.share_name, 'dir1.',
-            credential=storage_account_key,
+            credential=storage_account_key.secret,
             allow_trailing_dot=True)
         directory.create_directory()
         directory.create_subdirectory("subdir1.")
@@ -817,7 +817,7 @@ class TestStorageDirectory(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
         directory = share_client.create_directory('directory\uFFFE')
         directory.create_subdirectory("subdir1\uFFFE")
@@ -839,7 +839,7 @@ class TestStorageDirectory(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
         directory = share_client.create_directory('\uFFFFdirectory')
         directory.create_subdirectory("\uFFFFsubdir1")
@@ -861,7 +861,7 @@ class TestStorageDirectory(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
         directory = share_client.create_directory('dir1')
         directory.create_subdirectory("subdir1")
@@ -893,7 +893,7 @@ class TestStorageDirectory(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
         directory = share_client.create_directory('dir1')
         directory.create_subdirectory("subdir1")
@@ -910,7 +910,7 @@ class TestStorageDirectory(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
         directory = share_client.create_directory('dir1')
         directory.create_subdirectory("subdir1")
@@ -938,7 +938,7 @@ class TestStorageDirectory(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
         directory = share_client.create_directory('dir1')
         directory.create_subdirectory("subdir1")
@@ -972,7 +972,7 @@ class TestStorageDirectory(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
         directory = share_client.create_directory('dir1')
         subdir = directory.create_subdirectory("subdir1")
@@ -999,7 +999,7 @@ class TestStorageDirectory(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
         directory_name, prefix = "dir", "samples_"
         directory = share_client.create_directory(directory_name)
@@ -1023,7 +1023,7 @@ class TestStorageDirectory(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
         directory = share_client.create_directory('dir1')
 
@@ -1042,7 +1042,7 @@ class TestStorageDirectory(StorageRecordedTestCase):
         storage_account_key = kwargs.pop("storage_account_key")
         token_credential = self.get_credential(ShareServiceClient)
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
 
         directory_client = ShareDirectoryClient(
@@ -1066,13 +1066,13 @@ class TestStorageDirectory(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
 
         directory = ShareDirectoryClient(
             self.account_url(storage_account_name, 'file'),
             share_client.share_name, 'dir1.',
-            credential=storage_account_key,
+            credential=storage_account_key.secret,
             allow_trailing_dot=True)
 
         # Act
@@ -1090,7 +1090,7 @@ class TestStorageDirectory(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
         directory = share_client.get_directory_client('dir1')
 
@@ -1106,7 +1106,7 @@ class TestStorageDirectory(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
         directory = share_client.create_directory('dir1')
 
@@ -1125,7 +1125,7 @@ class TestStorageDirectory(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
 
         source_directory = share_client.create_directory('dir1')
@@ -1144,7 +1144,7 @@ class TestStorageDirectory(StorageRecordedTestCase):
         storage_account_key = kwargs.pop("storage_account_key")
         token_credential = self.get_credential(ShareServiceClient)
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
 
         directory_client = ShareDirectoryClient(
@@ -1167,7 +1167,7 @@ class TestStorageDirectory(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
 
         parent_source_directory = share_client.create_directory('dir1')
@@ -1189,7 +1189,7 @@ class TestStorageDirectory(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
 
         source_directory = share_client.create_directory('dir1')
@@ -1215,7 +1215,7 @@ class TestStorageDirectory(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
         file_permission_key = share_client.create_permission_for_share(TEST_FILE_PERMISSIONS)
 
@@ -1235,7 +1235,7 @@ class TestStorageDirectory(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
 
         source_directory = share_client.create_directory('dir1', file_permission=TEST_FILE_PERMISSIONS)
@@ -1256,7 +1256,7 @@ class TestStorageDirectory(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
 
         source_directory = share_client.create_directory('dir1')
@@ -1289,7 +1289,7 @@ class TestStorageDirectory(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
 
         source_directory = share_client.create_directory('dir1')
@@ -1313,7 +1313,7 @@ class TestStorageDirectory(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
 
         token = self.generate_sas(
@@ -1343,14 +1343,14 @@ class TestStorageDirectory(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
         dest_dir_name = 'dir2' + '.'
 
         directory_client = ShareDirectoryClient(
             self.account_url(storage_account_name, 'file'),
             share_client.share_name, 'dir1.',
-            credential=storage_account_key,
+            credential=storage_account_key.secret,
             allow_trailing_dot=True,
             allow_source_trailing_dot=True)
 
@@ -1368,12 +1368,12 @@ class TestStorageDirectory(StorageRecordedTestCase):
         storage_account_key = kwargs.pop("storage_account_key")
 
         # Arrange
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
         directory_client = ShareDirectoryClient(
             self.account_url(storage_account_name, 'file'),
             share_client.share_name, 'dir1.',
-            credential=storage_account_key
+            credential=storage_account_key.secret
         )
         directory_client.exists()
 
@@ -1398,12 +1398,12 @@ class TestStorageDirectory(StorageRecordedTestCase):
         storage_account_key = kwargs.pop("storage_account_key")
 
         # Arrange
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
         directory_client = ShareDirectoryClient(
             self.account_url(storage_account_name, 'file'),
             share_client.share_name, 'dir1.',
-            credential=storage_account_key
+            credential=storage_account_key.secret
         )
         directory_client.exists()
 
@@ -1426,7 +1426,7 @@ class TestStorageDirectory(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share_client = self.fsc.get_share_client(self.share_name)
         user_given_permission_sddl = ("O:S-1-5-21-2127521184-1604012920-1887927527-21560751G:S-1-5-21-2127521184-"
                                       "1604012920-1887927527-513D:AI(A;;FA;;;SY)(A;;FA;;;BA)(A;;0x1200a9;;;"

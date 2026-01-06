@@ -51,7 +51,7 @@ class TestStorageHandleAsync(AsyncStorageRecordedTestCase):
         # don't run live, since the test set up was highly manual
         # only run when recording, or playing back in CI
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share = self.fsc.get_share_client(TEST_SHARE_NAME)
         root = share.get_directory_client()
         handles = []
@@ -79,7 +79,7 @@ class TestStorageHandleAsync(AsyncStorageRecordedTestCase):
         # don't run live, since the test set up was highly manual
         # only run when recording, or playing back in CI
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share = self.fsc.get_share_client(TEST_SHARE_NAME)
         root = share.get_directory_client()
         handles = []
@@ -104,7 +104,7 @@ class TestStorageHandleAsync(AsyncStorageRecordedTestCase):
         # don't run live, since the test set up was highly manual
         # only run when recording, or playing back in CI
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share = self.fsc.get_share_client('mytestshare')
         root = share.get_directory_client('testdir')
         file_client = root.get_file_client('testfile.txt')

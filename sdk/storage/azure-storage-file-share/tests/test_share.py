@@ -102,7 +102,7 @@ class TestStorageShare(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share = self._get_share_reference()
 
         # Act
@@ -119,7 +119,7 @@ class TestStorageShare(StorageRecordedTestCase):
         storage_account_key = kwargs.pop("storage_account_key")
         token_credential = self.get_credential(ShareServiceClient)
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share_name = self.get_resource_name(TEST_SHARE_PREFIX)
 
         # Act
@@ -137,7 +137,7 @@ class TestStorageShare(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share = self._get_share_reference()
 
         # Act
@@ -157,7 +157,7 @@ class TestStorageShare(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share = self._get_share_reference()
         metadata = {"test1": "foo", "test2": "bar"}
         metadata2 = {"test100": "foo100", "test200": "bar200"}
@@ -171,7 +171,7 @@ class TestStorageShare(StorageRecordedTestCase):
             self.account_url(storage_account_name, "file"),
             share_name=share.share_name,
             snapshot=snapshot,
-            credential=storage_account_key
+            credential=storage_account_key.secret
         )
         snapshot_props = snapshot_client.get_share_properties()
         # Assert
@@ -191,7 +191,7 @@ class TestStorageShare(StorageRecordedTestCase):
         storage_account_key = kwargs.pop("storage_account_key")
 
         # share soft delete should enabled by SRP call or use armclient, so make this test as playback only.
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share_client = self._create_share(prefix="sharerestore")
 
         # Act
@@ -220,7 +220,7 @@ class TestStorageShare(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share_client = self._create_share('test')
         # Act
         lease = share_client.acquire_lease(lease_id='00000000-1111-2222-3333-444444444444')
@@ -233,7 +233,7 @@ class TestStorageShare(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share = self._get_share_reference("testshare2")
 
         # Act
@@ -244,7 +244,7 @@ class TestStorageShare(StorageRecordedTestCase):
             self.account_url(storage_account_name, "file"),
             share_name=share.share_name,
             snapshot=snapshot,
-            credential=storage_account_key
+            credential=storage_account_key.secret
         )
 
         share_lease = share.acquire_lease(lease_id='00000000-1111-2222-3333-444444444444')
@@ -274,7 +274,7 @@ class TestStorageShare(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share_client = self._create_share('test')
         lease = share_client.acquire_lease(lease_id='00000000-1111-2222-3333-444444444444', lease_duration=15)
         self.sleep(10)
@@ -297,7 +297,7 @@ class TestStorageShare(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share_client = self._create_share('test1')
 
         # Act
@@ -315,7 +315,7 @@ class TestStorageShare(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share_client = self._create_share('test')
 
         # Act
@@ -331,7 +331,7 @@ class TestStorageShare(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share_client = self._create_share('test')
 
         # Act
@@ -347,7 +347,7 @@ class TestStorageShare(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share_client = self._create_share('test')
 
         # Act
@@ -370,7 +370,7 @@ class TestStorageShare(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share_client = self._create_share('test')
         metadata = {'hello': 'world', 'number': '43'}
         lease_id = share_client.acquire_lease(lease_id='00000000-1111-2222-3333-444444444444')
@@ -388,7 +388,7 @@ class TestStorageShare(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share_client = self._create_share('test')
         metadata = {'hello': 'world', 'number': '43'}
         share_client.set_share_metadata(metadata)
@@ -406,7 +406,7 @@ class TestStorageShare(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share_client = self._create_share('test')
         metadata = {'hello': 'world', 'number': '43'}
         share_client.set_share_metadata(metadata)
@@ -429,7 +429,7 @@ class TestStorageShare(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share_client = self._create_share('test')
         lease_id = share_client.acquire_lease(lease_id='00000000-1111-2222-3333-444444444444')
 
@@ -447,7 +447,7 @@ class TestStorageShare(StorageRecordedTestCase):
         storage_account_key = kwargs.pop("storage_account_key")
         variables = kwargs.pop('variables', {})
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share_client = self._create_share('test')
         lease_id = share_client.acquire_lease(lease_id='00000000-1111-2222-3333-444444444444')
 
@@ -474,7 +474,7 @@ class TestStorageShare(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share_client = self._create_share('test')
 
         # Act
@@ -492,7 +492,7 @@ class TestStorageShare(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share_client = self._create_share('test')
         lease = share_client.acquire_lease(lease_id='00000000-1111-2222-3333-444444444444', lease_duration=15)
 
@@ -516,7 +516,7 @@ class TestStorageShare(StorageRecordedTestCase):
         storage_account_key = kwargs.pop("storage_account_key")
 
         # share soft delete should enabled by SRP call or use armclient, so make this test as playback only.
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         # Act
         share_client = self._create_share()
         share_client.delete_share()
@@ -544,7 +544,7 @@ class TestStorageShare(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share = self._get_share_reference()
         share.create_share()
         snapshot = share.create_snapshot()
@@ -557,7 +557,7 @@ class TestStorageShare(StorageRecordedTestCase):
             self.account_url(storage_account_name, "file"),
             share_name=share.share_name,
             snapshot=snapshot,
-            credential=storage_account_key
+            credential=storage_account_key.secret
         )
 
         deleted = snapshot_client.delete_share()
@@ -570,7 +570,7 @@ class TestStorageShare(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share = self._get_share_reference()
 
         # Act
@@ -586,7 +586,7 @@ class TestStorageShare(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share = self._get_share_reference()
 
         # Act
@@ -604,7 +604,7 @@ class TestStorageShare(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         metadata = {'hello': 'world', 'number': '42'}
 
         # Act
@@ -623,7 +623,7 @@ class TestStorageShare(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
 
         # Act
         client = self._get_share_reference()
@@ -641,7 +641,7 @@ class TestStorageShare(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
 
         # Act
         client = self._get_share_reference()
@@ -659,7 +659,7 @@ class TestStorageShare(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share = self._create_share()
 
         # Act
@@ -675,7 +675,7 @@ class TestStorageShare(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share = self._get_share_reference()
 
         # Act
@@ -691,7 +691,7 @@ class TestStorageShare(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share = self._create_share()
         snapshot = share.create_snapshot()
 
@@ -709,7 +709,7 @@ class TestStorageShare(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share = self._create_share()
         made_up_snapshot = '2017-07-19T06:53:46.0000000Z'
 
@@ -727,7 +727,7 @@ class TestStorageShare(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share_name = u'啊齄丂狛狜'
 
         # Act
@@ -745,7 +745,7 @@ class TestStorageShare(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share = self._create_share()
         # Act
         shares = list(self.fsc.list_shares())
@@ -807,7 +807,7 @@ class TestStorageShare(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share = self._create_share("test1")
 
         # Act
@@ -830,7 +830,7 @@ class TestStorageShare(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share = self._create_share('random2')
         snapshot1 = share.create_snapshot()
         snapshot2 = share.create_snapshot()
@@ -853,7 +853,7 @@ class TestStorageShare(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share = self._create_share('prefix')
         share.create_snapshot()
         share.create_snapshot()
@@ -884,7 +884,7 @@ class TestStorageShare(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         self._create_share('othershare')
         share = self._create_share('random2')
 
@@ -904,7 +904,7 @@ class TestStorageShare(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         metadata = {'hello': 'world', 'number': '42'}
         share = self._get_share_reference()
         share.create_share(metadata=metadata)
@@ -927,7 +927,7 @@ class TestStorageShare(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         prefix = 'listshare'
         share_names = []
         for i in range(0, 4):
@@ -960,12 +960,12 @@ class TestStorageShare(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share = self._create_share()
         sas_token = self.generate_sas(
             generate_account_sas,
             storage_account_name,
-            storage_account_key,
+            storage_account_key.secret,
             ResourceTypes(service=True),
             AccountSasPermissions(list=True),
             datetime.utcnow() + timedelta(hours=1),
@@ -988,12 +988,12 @@ class TestStorageShare(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share = self._create_share()
         sas_token = self.generate_sas(
             generate_account_sas,
             storage_account_name,
-            storage_account_key,
+            storage_account_key.secret,
             ResourceTypes(service=True),
             AccountSasPermissions(list=True),
             datetime.utcnow() - timedelta(hours=1)
@@ -1014,7 +1014,7 @@ class TestStorageShare(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share = self._create_share()
         metadata = {'hello': 'world', 'number': '42'}
 
@@ -1032,7 +1032,7 @@ class TestStorageShare(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         metadata = {'hello': 'world', 'number': '42'}
 
         # Act
@@ -1051,7 +1051,7 @@ class TestStorageShare(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         metadata = {'hello': 'world', 'number': '42'}
 
         # Act
@@ -1072,7 +1072,7 @@ class TestStorageShare(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share1 = self._create_share("share1")
         share2 = self._create_share("share2")
 
@@ -1194,7 +1194,7 @@ class TestStorageShare(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share = self._get_share_reference()
         share.create_share()
 
@@ -1211,7 +1211,7 @@ class TestStorageShare(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         client = self._get_share_reference()
 
         # Act
@@ -1228,7 +1228,7 @@ class TestStorageShare(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         client = self._get_share_reference()
 
         # Act
@@ -1246,7 +1246,7 @@ class TestStorageShare(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         client = self._get_share_reference()
 
         # Act
@@ -1263,7 +1263,7 @@ class TestStorageShare(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share = self._get_share_reference()
         share.create_share()
 
@@ -1280,7 +1280,7 @@ class TestStorageShare(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share = self._get_share_reference()
         share.create_share()
 
@@ -1298,7 +1298,7 @@ class TestStorageShare(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share = self._get_share_reference()
         share.create_share()
 
@@ -1318,7 +1318,7 @@ class TestStorageShare(StorageRecordedTestCase):
         storage_account_key = kwargs.pop("storage_account_key")
         variables = kwargs.pop('variables', {})
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share = self._get_share_reference()
         share.create_share()
 
@@ -1349,7 +1349,7 @@ class TestStorageShare(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share = self._get_share_reference()
         share.create_share()
 
@@ -1370,7 +1370,7 @@ class TestStorageShare(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share = self._create_share()
         dir0 = share.get_directory_client()
         dir0.upload_file('file1', 'data1')
@@ -1398,7 +1398,7 @@ class TestStorageShare(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share_name = self._create_share()
         dir1 = share_name.get_directory_client('dir1')
         dir1.create_directory()
@@ -1429,7 +1429,7 @@ class TestStorageShare(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share_name = self._create_share()
         dir1 = share_name.create_directory('dir1')
         root = share_name.get_directory_client()
@@ -1455,7 +1455,7 @@ class TestStorageShare(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share_name = self._create_share()
         dir1 = share_name.get_directory_client('dir1')
         dir1.create_directory()
@@ -1489,7 +1489,7 @@ class TestStorageShare(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share = self._create_share()
         dir1 = share.create_directory('dir1')
         share.create_directory('dir1/pref_dir3')
@@ -1517,7 +1517,7 @@ class TestStorageShare(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         file_name = 'file1'
         dir_name = 'dir1'
         data = b'hello world'
@@ -1556,7 +1556,7 @@ class TestStorageShare(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         user_given_permission = "O:S-1-5-21-2127521184-1604012920-1887927527-21560751G:S-1-5-21-2127521184-" \
                                 "1604012920-1887927527-513D:AI(A;;FA;;;SY)(A;;FA;;;BA)(A;;0x1200a9;;;" \
                                 "S-1-5-21-397955417-626881126-188441444-3053964)"
@@ -1578,7 +1578,7 @@ class TestStorageShare(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share_client = self._create_share()
         user_given_permission_sddl = ("O:S-1-5-21-2127521184-1604012920-1887927527-21560751G:S-1-5-21-2127521184-"
                                       "1604012920-1887927527-513D:AI(A;;FA;;;SY)(A;;FA;;;BA)(A;;0x1200a9;;;"
@@ -1610,7 +1610,7 @@ class TestStorageShare(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         transport = RequestsTransport()
         url = self.account_url(storage_account_name, "file")
         credential = storage_account_key
@@ -1630,7 +1630,7 @@ class TestStorageShare(StorageRecordedTestCase):
         storage_account_name = kwargs.pop("storage_account_name")
         storage_account_key = kwargs.pop("storage_account_key")
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share = self._create_share()
         dir1 = share.create_directory('dir1')
         share.create_directory('dir2')
@@ -1710,7 +1710,7 @@ class TestStorageShare(StorageRecordedTestCase):
         storage_account_key = kwargs.pop("storage_account_key")
         token_credential = self.get_credential(ShareClient)
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         first_share = self._create_share('test1')
         second_share = self._create_share('test2')
 
@@ -1761,7 +1761,7 @@ class TestStorageShare(StorageRecordedTestCase):
         token_credential = self.get_credential(ShareClient)
 
         # Arrange
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         share = self._create_share('test')
         share_client = ShareClient(
             self.account_url(storage_account_name, "file"),
@@ -1829,7 +1829,7 @@ class TestStorageShare(StorageRecordedTestCase):
         storage_account_key = kwargs.pop("storage_account_key")
 
         try:
-            self._setup(storage_account_name, storage_account_key)
+            self._setup(storage_account_name, storage_account_key.secret)
 
             share_name = self.get_resource_name(TEST_SHARE_PREFIX)
             share = self.fsc.get_share_client(share_name)
@@ -1909,7 +1909,7 @@ class TestStorageShare(StorageRecordedTestCase):
         storage_account_key = kwargs.pop("storage_account_key")
         data = b"abc123"
 
-        self._setup(storage_account_name, storage_account_key)
+        self._setup(storage_account_name, storage_account_key.secret)
         token_credential = self.get_credential(ShareServiceClient)
         service = ShareServiceClient(
             self.account_url(storage_account_name, "file"),
@@ -1933,7 +1933,7 @@ class TestStorageShare(StorageRecordedTestCase):
             generate_share_sas,
             share.account_name,
             share.share_name,
-            storage_account_key,
+            storage_account_key.secret,
             permission=ShareSasPermissions(read=True, list=True),
             expiry=datetime.utcnow() + timedelta(hours=1),
             user_delegation_key=user_delegation_key,
@@ -1954,7 +1954,7 @@ class TestStorageShare(StorageRecordedTestCase):
             file.account_name,
             file.share_name,
             file.file_path,
-            storage_account_key,
+            storage_account_key.secret,
             permission=FileSasPermissions(read=True),
             expiry=datetime.utcnow() + timedelta(hours=1),
             user_delegation_key=user_delegation_key,
