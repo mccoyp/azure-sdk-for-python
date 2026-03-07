@@ -1,0 +1,4 @@
+directory: specification/maps/data-plane/Geolocation
+commit: 1bf500286410124304f5f5ab2f30678e803262ff
+repo: Azure/azure-rest-api-specs
+additionalDirectories:
