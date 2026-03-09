@@ -6,7 +6,8 @@
 from typing import Union, Any
 from azure.core.pipeline.policies import AzureKeyCredentialPolicy, AzureSasCredentialPolicy
 from azure.core.credentials import AzureKeyCredential, AzureSasCredential, TokenCredential
-from ._generated import GeolocationClient as _GeolocationClient
+from ._client import MapsGeolocationClient as _GeolocationClient
+from ._operations import _MapsGeolocationClientOperationsMixin
 from ._version import API_VERSION
 
 
@@ -37,7 +38,11 @@ class MapsGeolocationClientBase:
             authentication_policy=kwargs.pop("authentication_policy", _authentication_policy(credential)),
             **kwargs
         )
-        self._geolocation_client = self._maps_client.geolocation
+        self._geolocation_client = _MapsGeolocationClientOperationsMixin()  # type: ignore
+        self._geolocation_client._client = self._maps_client._client  # type: ignore
+        self._geolocation_client._serialize = self._maps_client._serialize  # type: ignore
+        self._geolocation_client._deserialize = self._maps_client._deserialize  # type: ignore
+        self._geolocation_client._config = self._maps_client._config  # type: ignore
 
     def __enter__(self):
         self._maps_client.__enter__()  # pylint:disable=no-member
