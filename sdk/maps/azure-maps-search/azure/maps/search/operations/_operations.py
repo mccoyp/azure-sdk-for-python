@@ -139,8 +139,8 @@ def build_search_operation_group_get_polygon_request(  # pylint: disable=name-to
     client_id: Optional[str] = None,
     accept_language: Optional[str] = None,
     view: Optional[str] = None,
-    result_type: Optional[Union[str, _models.BoundaryResultTypeEnum]] = None,
-    resolution: Optional[Union[str, _models.ResolutionEnum]] = None,
+    result_type: Optional[Union[str, _models.BoundaryResultType]] = None,
+    resolution: Optional[Union[str, _models.Resolution]] = None,
     **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -177,7 +177,7 @@ def build_search_operation_group_get_reverse_geocoding_request(  # pylint: disab
     coordinates: list[float],
     client_id: Optional[str] = None,
     accept_language: Optional[str] = None,
-    result_types: Optional[list[Union[str, _models.ReverseGeocodingResultTypeEnum]]] = None,
+    result_types: Optional[list[Union[str, _models.ReverseGeocodingResultType]]] = None,
     view: Optional[str] = None,
     **kwargs: Any
 ) -> HttpRequest:
@@ -244,8 +244,8 @@ def build_search_operation_group_get_geocode_autocomplete_request(  # pylint: di
     coordinates: Optional[list[float]] = None,
     bbox: Optional[list[float]] = None,
     top: Optional[int] = None,
-    result_type_groups: Optional[list[Union[str, _models.AutocompleteResultTypeGroupsEnum]]] = None,
-    result_types: Optional[list[Union[str, _models.AutocompleteResultTypeEnum]]] = None,
+    result_type_groups: Optional[list[Union[str, _models.AutocompleteResultTypeGroups]]] = None,
+    result_types: Optional[list[Union[str, _models.AutocompleteResultType]]] = None,
     view: Optional[str] = None,
     country_region: Optional[str] = None,
     **kwargs: Any
@@ -1065,8 +1065,8 @@ class SearchOperationGroupOperations:
         client_id: Optional[str] = None,
         accept_language: Optional[str] = None,
         view: Optional[str] = None,
-        result_type: Optional[Union[str, _models.BoundaryResultTypeEnum]] = None,
-        resolution: Optional[Union[str, _models.ResolutionEnum]] = None,
+        result_type: Optional[Union[str, _models.BoundaryResultType]] = None,
+        resolution: Optional[Union[str, _models.Resolution]] = None,
         **kwargs: Any
     ) -> _models.Boundary:
         """Use to get polygon data of a geographical area shape such as a city or a country region.
@@ -1111,12 +1111,12 @@ class SearchOperationGroupOperations:
          default is ``countryRegion`` result type. Known values are: "countryRegion", "adminDistrict",
          "adminDistrict2", "postalCode", "postalCode2", "postalCode3", "postalCode4", "neighborhood",
          and "locality". Default value is None.
-        :paramtype result_type: str or ~azure.maps.search.models.BoundaryResultTypeEnum
+        :paramtype result_type: str or ~azure.maps.search.models.BoundaryResultType
         :keyword resolution: Resolution determines the amount of points to send back. If not specified,
          the
          default is medium resolution. Known values are: "small", "medium", "large", and "huge".
          Default value is None.
-        :paramtype resolution: str or ~azure.maps.search.models.ResolutionEnum
+        :paramtype resolution: str or ~azure.maps.search.models.Resolution
         :return: Boundary. The Boundary is compatible with MutableMapping
         :rtype: ~azure.maps.search.models.Boundary
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1187,7 +1187,7 @@ class SearchOperationGroupOperations:
         coordinates: list[float],
         client_id: Optional[str] = None,
         accept_language: Optional[str] = None,
-        result_types: Optional[list[Union[str, _models.ReverseGeocodingResultTypeEnum]]] = None,
+        result_types: Optional[list[Union[str, _models.ReverseGeocodingResultType]]] = None,
         view: Optional[str] = None,
         **kwargs: Any
     ) -> _models.GeocodingResponse:
@@ -1246,7 +1246,7 @@ class SearchOperationGroupOperations:
          most specific entity is returned. For example, if you specify Address and
          AdminDistrict1 as entity types and entities were found for both types, only the
          Address entity information is returned in the response. Default value is None.
-        :paramtype result_types: list[str or ~azure.maps.search.models.ReverseGeocodingResultTypeEnum]
+        :paramtype result_types: list[str or ~azure.maps.search.models.ReverseGeocodingResultType]
         :keyword view: A string that represents an `ISO 3166-1 Alpha-2 region/country
          code <https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2>`_. This will alter
          Geopolitical disputed borders and labels to align with the specified user
@@ -1892,8 +1892,8 @@ class SearchOperationGroupOperations:
         coordinates: Optional[list[float]] = None,
         bbox: Optional[list[float]] = None,
         top: Optional[int] = None,
-        result_type_groups: Optional[list[Union[str, _models.AutocompleteResultTypeGroupsEnum]]] = None,
-        result_types: Optional[list[Union[str, _models.AutocompleteResultTypeEnum]]] = None,
+        result_type_groups: Optional[list[Union[str, _models.AutocompleteResultTypeGroups]]] = None,
+        result_types: Optional[list[Union[str, _models.AutocompleteResultType]]] = None,
         view: Optional[str] = None,
         country_region: Optional[str] = None,
         **kwargs: Any
@@ -1962,7 +1962,7 @@ class SearchOperationGroupOperations:
          * Address
          * Place. Default value is None.
         :paramtype result_type_groups: list[str or
-         ~azure.maps.search.models.AutocompleteResultTypeGroupsEnum]
+         ~azure.maps.search.models.AutocompleteResultTypeGroups]
         :keyword result_types: A comma separated list of returned entity types.
          When type group is set to Address, the supported types are:
 
@@ -1974,7 +1974,7 @@ class SearchOperationGroupOperations:
          All other types belong to the Place type group. These may include entities such
          as AdminDivision1, Neighborhood, PopulatedPlace, and more.
          Default value is all possible entity types. Default value is None.
-        :paramtype result_types: list[str or ~azure.maps.search.models.AutocompleteResultTypeEnum]
+        :paramtype result_types: list[str or ~azure.maps.search.models.AutocompleteResultType]
         :keyword view: A string that represents an `ISO 3166-1 Alpha-2 region/country
          code <https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2>`_. This will alter
          Geopolitical disputed borders and labels to align with the specified user

@@ -28,17 +28,17 @@ from azure.core.tracing.decorator_async import distributed_trace_async
 from azure.core.utils import case_insensitive_dict
 
 from ... import models as _models
-from ..._utils.model_base import SdkJSONEncoder, _deserialize
-from ..._utils.serialization import Deserializer, Serializer
-from ..._validation import api_version_validation
-from ...operations._operations import (
-    build_search_operation_group_get_geocode_autocomplete_request,
-    build_search_operation_group_get_geocoding_batch_request,
-    build_search_operation_group_get_geocoding_request,
-    build_search_operation_group_get_polygon_request,
-    build_search_operation_group_get_reverse_geocoding_batch_request,
-    build_search_operation_group_get_reverse_geocoding_request,
+from ..._operations._operations import (
+    build_maps_search_get_geocode_autocomplete_request,
+    build_maps_search_get_geocoding_batch_request,
+    build_maps_search_get_geocoding_request,
+    build_maps_search_get_polygon_request,
+    build_maps_search_get_reverse_geocoding_batch_request,
+    build_maps_search_get_reverse_geocoding_request,
 )
+from ..._utils.model_base import SdkJSONEncoder, _deserialize
+from ..._utils.utils import ClientMixinABC
+from ..._validation import api_version_validation
 from .._configuration import MapsSearchClientConfiguration
 
 JSON = MutableMapping[str, Any]
@@ -46,22 +46,9 @@ T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, dict[str, Any]], Any]]
 
 
-class SearchOperationGroupOperations:
-    """
-    .. warning::
-        **DO NOT** instantiate this class directly.
-
-        Instead, you should access the following operations through
-        :class:`~azure.maps.search.aio.MapsSearchClient`'s
-        :attr:`search_operation_group` attribute.
-    """
-
-    def __init__(self, *args, **kwargs) -> None:
-        input_args = list(args)
-        self._client: AsyncPipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config: MapsSearchClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
-        self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
-        self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
+class _MapsSearchClientOperationsMixin(
+    ClientMixinABC[AsyncPipelineClient[HttpRequest, AsyncHttpResponse], MapsSearchClientConfiguration]
+):
 
     @distributed_trace_async
     async def get_geocoding(  # pylint: disable=too-many-locals
@@ -211,7 +198,7 @@ class SearchOperationGroupOperations:
 
         cls: ClsType[_models.GeocodingResponse] = kwargs.pop("cls", None)
 
-        _request = build_search_operation_group_get_geocoding_request(
+        _request = build_maps_search_get_geocoding_request(
             accept_language=accept_language,
             top=top,
             query=query,
@@ -237,7 +224,7 @@ class SearchOperationGroupOperations:
 
         _decompress = kwargs.pop("decompress", True)
         _stream = kwargs.pop("stream", False)
-        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # type: ignore # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
 
@@ -775,7 +762,7 @@ class SearchOperationGroupOperations:
         else:
             _content = json.dumps(geocoding_batch_request_body, cls=SdkJSONEncoder, exclude_readonly=True)  # type: ignore
 
-        _request = build_search_operation_group_get_geocoding_batch_request(
+        _request = build_maps_search_get_geocoding_batch_request(
             client_id=client_id,
             accept_language=accept_language,
             content_type=content_type,
@@ -791,7 +778,7 @@ class SearchOperationGroupOperations:
 
         _decompress = kwargs.pop("decompress", True)
         _stream = kwargs.pop("stream", False)
-        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # type: ignore # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
 
@@ -893,7 +880,7 @@ class SearchOperationGroupOperations:
 
         cls: ClsType[_models.Boundary] = kwargs.pop("cls", None)
 
-        _request = build_search_operation_group_get_polygon_request(
+        _request = build_maps_search_get_polygon_request(
             coordinates=coordinates,
             client_id=client_id,
             accept_language=accept_language,
@@ -911,7 +898,7 @@ class SearchOperationGroupOperations:
 
         _decompress = kwargs.pop("decompress", True)
         _stream = kwargs.pop("stream", False)
-        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # type: ignore # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
 
@@ -1032,7 +1019,7 @@ class SearchOperationGroupOperations:
 
         cls: ClsType[_models.GeocodingResponse] = kwargs.pop("cls", None)
 
-        _request = build_search_operation_group_get_reverse_geocoding_request(
+        _request = build_maps_search_get_reverse_geocoding_request(
             coordinates=coordinates,
             client_id=client_id,
             accept_language=accept_language,
@@ -1049,7 +1036,7 @@ class SearchOperationGroupOperations:
 
         _decompress = kwargs.pop("decompress", True)
         _stream = kwargs.pop("stream", False)
-        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # type: ignore # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
 
@@ -1580,7 +1567,7 @@ class SearchOperationGroupOperations:
         else:
             _content = json.dumps(reverse_geocoding_batch_request_body, cls=SdkJSONEncoder, exclude_readonly=True)  # type: ignore
 
-        _request = build_search_operation_group_get_reverse_geocoding_batch_request(
+        _request = build_maps_search_get_reverse_geocoding_batch_request(
             client_id=client_id,
             accept_language=accept_language,
             content_type=content_type,
@@ -1596,7 +1583,7 @@ class SearchOperationGroupOperations:
 
         _decompress = kwargs.pop("decompress", True)
         _stream = kwargs.pop("stream", False)
-        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # type: ignore # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
 
@@ -1765,7 +1752,7 @@ class SearchOperationGroupOperations:
 
         cls: ClsType[_models.AutocompleteResponse] = kwargs.pop("cls", None)
 
-        _request = build_search_operation_group_get_geocode_autocomplete_request(
+        _request = build_maps_search_get_geocode_autocomplete_request(
             query=query,
             client_id=client_id,
             accept_language=accept_language,
@@ -1787,7 +1774,7 @@ class SearchOperationGroupOperations:
 
         _decompress = kwargs.pop("decompress", True)
         _stream = kwargs.pop("stream", False)
-        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # type: ignore # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
 

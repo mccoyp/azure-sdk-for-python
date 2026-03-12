@@ -10,7 +10,7 @@ from enum import Enum
 from azure.core import CaseInsensitiveEnumMeta
 
 
-class AutocompleteResultTypeEnum(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+class AutocompleteResultType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Type of suggestion."""
 
     ADDRESS = "Address"
@@ -275,7 +275,7 @@ class AutocompleteResultTypeEnum(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Zoo."""
 
 
-class AutocompleteResultTypeGroupsEnum(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+class AutocompleteResultTypeGroups(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Address or Place."""
 
     ADDRESS = "Address"
@@ -290,8 +290,8 @@ class AutocompleteResultTypeGroupsEnum(str, Enum, metaclass=CaseInsensitiveEnumM
     AdminDivision1, Neighborhood, PopulatedPlace, and more."""
 
 
-class BoundaryResultTypeEnum(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Type of BoundaryResultTypeEnum."""
+class BoundaryResultType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Type of BoundaryResultType."""
 
     COUNTRY_REGION = "countryRegion"
     """Country or region."""
@@ -317,7 +317,7 @@ class BoundaryResultTypeEnum(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """A concentrated area of human settlement, such as a city, town or village."""
 
 
-class CalculationMethodEnum(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+class CalculationMethod(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The method that was used to compute the geocode point."""
 
     INTERPOLATION = "Interpolation"
@@ -331,7 +331,7 @@ class CalculationMethodEnum(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The geocode point was matched to the rooftop of a building."""
 
 
-class ConfidenceEnum(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+class Confidence(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The level of confidence that the geocoded location result is a match. Use this
     value with the match code to determine for more complete information about the
     match.
@@ -376,7 +376,7 @@ class ConfidenceEnum(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Low."""
 
 
-class FeatureCollectionEnum(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+class FeatureCollection(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Specifies the ``GeoJSON`` type. The only supported object type is ``FeatureCollection``. For
     more information, see `RFC 7946 <https://www.rfc-editor.org/rfc/rfc7946>`_.
     """
@@ -385,7 +385,7 @@ class FeatureCollectionEnum(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Specifies the ``GeoJSON`` ``FeatureCollection`` object type."""
 
 
-class FeatureTypeEnum(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+class FeatureType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The type of a feature must be Feature."""
 
     FEATURE = "Feature"
@@ -418,8 +418,8 @@ class GeoJsonObjectType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """``GeoJSON FeatureCollection`` object."""
 
 
-class MatchCodesEnum(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Type of MatchCodesEnum."""
+class MatchCodes(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Type of MatchCodes."""
 
     GOOD = "Good"
     """Good."""
@@ -429,8 +429,8 @@ class MatchCodesEnum(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """UpHierarchy."""
 
 
-class ResolutionEnum(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Type of ResolutionEnum."""
+class Resolution(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Type of Resolution."""
 
     SMALL = "small"
     """Return the boundary geometry with the least amount of points."""
@@ -442,8 +442,8 @@ class ResolutionEnum(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Return the boundary geometry with more or the same amount of points as large."""
 
 
-class ResultTypeEnum(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Type of ResultTypeEnum."""
+class ResultType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Type of ResultType."""
 
     ADDRESS = "Address"
     """Address."""
@@ -461,8 +461,8 @@ class ResultTypeEnum(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """CountryRegion."""
 
 
-class ReverseGeocodingResultTypeEnum(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Type of ReverseGeocodingResultTypeEnum."""
+class ReverseGeocodingResultType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Type of ReverseGeocodingResultType."""
 
     ADDRESS = "Address"
     """Address."""
@@ -480,8 +480,8 @@ class ReverseGeocodingResultTypeEnum(str, Enum, metaclass=CaseInsensitiveEnumMet
     """CountryRegion."""
 
 
-class UsageTypeEnum(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Type of UsageTypeEnum."""
+class UsageType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Type of UsageType."""
 
     DISPLAY = "Display"
     """Display."""

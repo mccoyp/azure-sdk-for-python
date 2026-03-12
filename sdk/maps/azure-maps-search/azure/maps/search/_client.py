@@ -16,18 +16,16 @@ from azure.core.pipeline import policies
 from azure.core.rest import HttpRequest, HttpResponse
 
 from ._configuration import MapsSearchClientConfiguration
+from ._operations import _MapsSearchClientOperationsMixin
 from ._utils.serialization import Deserializer, Serializer
-from .operations import SearchOperationGroupOperations
 
 if TYPE_CHECKING:
     from azure.core.credentials import TokenCredential
 
 
-class MapsSearchClient:
+class MapsSearchClient(_MapsSearchClientOperationsMixin):
     """Azure Maps Search REST APIs.
 
-    :ivar search_operation_group: SearchOperationGroupOperations operations
-    :vartype search_operation_group: azure.maps.search.operations.SearchOperationGroupOperations
     :param credential: Credential used to authenticate requests to the service. Is either a token
      credential type or a key credential type. Required.
     :type credential: ~azure.core.credentials.TokenCredential or
@@ -67,9 +65,6 @@ class MapsSearchClient:
         self._serialize = Serializer()
         self._deserialize = Deserializer()
         self._serialize.client_side_validation = False
-        self.search_operation_group = SearchOperationGroupOperations(
-            self._client, self._config, self._serialize, self._deserialize
-        )
 
     def send_request(self, request: HttpRequest, *, stream: bool = False, **kwargs: Any) -> HttpResponse:
         """Runs the network request through the client's chained policies.

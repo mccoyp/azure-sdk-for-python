@@ -11,7 +11,7 @@ from io import IOBase
 import json
 from typing import Any, Callable, IO, Optional, TypeVar, Union, overload
 
-from azure.core import AsyncPipelineClient
+from azure.core import PipelineClient
 from azure.core.exceptions import (
     ClientAuthenticationError,
     HttpResponseError,
@@ -23,48 +23,277 @@ from azure.core.exceptions import (
     map_error,
 )
 from azure.core.pipeline import PipelineResponse
-from azure.core.rest import AsyncHttpResponse, HttpRequest
-from azure.core.tracing.decorator_async import distributed_trace_async
+from azure.core.rest import HttpRequest, HttpResponse
+from azure.core.tracing.decorator import distributed_trace
 from azure.core.utils import case_insensitive_dict
 
-from ... import models as _models
-from ..._utils.model_base import SdkJSONEncoder, _deserialize
-from ..._utils.serialization import Deserializer, Serializer
-from ..._validation import api_version_validation
-from ...operations._operations import (
-    build_search_operation_group_get_geocode_autocomplete_request,
-    build_search_operation_group_get_geocoding_batch_request,
-    build_search_operation_group_get_geocoding_request,
-    build_search_operation_group_get_polygon_request,
-    build_search_operation_group_get_reverse_geocoding_batch_request,
-    build_search_operation_group_get_reverse_geocoding_request,
-)
+from .. import models as _models
 from .._configuration import MapsSearchClientConfiguration
+from .._utils.model_base import SdkJSONEncoder, _deserialize
+from .._utils.serialization import Serializer
+from .._utils.utils import ClientMixinABC
+from .._validation import api_version_validation
 
 JSON = MutableMapping[str, Any]
 T = TypeVar("T")
-ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, dict[str, Any]], Any]]
+ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, dict[str, Any]], Any]]
+
+_SERIALIZER = Serializer()
+_SERIALIZER.client_side_validation = False
 
 
-class SearchOperationGroupOperations:
-    """
-    .. warning::
-        **DO NOT** instantiate this class directly.
+def build_maps_search_get_geocoding_request(
+    *,
+    accept_language: Optional[str] = None,
+    top: Optional[int] = None,
+    query: Optional[str] = None,
+    address_line: Optional[str] = None,
+    country_region: Optional[str] = None,
+    bbox: Optional[list[float]] = None,
+    view: Optional[str] = None,
+    coordinates: Optional[list[float]] = None,
+    admin_district: Optional[str] = None,
+    admin_district2: Optional[str] = None,
+    admin_district3: Optional[str] = None,
+    locality: Optional[str] = None,
+    postal_code: Optional[str] = None,
+    client_id: Optional[str] = None,
+    **kwargs: Any
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        Instead, you should access the following operations through
-        :class:`~azure.maps.search.aio.MapsSearchClient`'s
-        :attr:`search_operation_group` attribute.
-    """
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-06-01-preview"))
+    accept = _headers.pop("Accept", "application/geo+json")
 
-    def __init__(self, *args, **kwargs) -> None:
-        input_args = list(args)
-        self._client: AsyncPipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config: MapsSearchClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
-        self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
-        self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
+    # Construct URL
+    _url = "/geocode"
 
-    @distributed_trace_async
-    async def get_geocoding(  # pylint: disable=too-many-locals
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+    if top is not None:
+        _params["top"] = _SERIALIZER.query("top", top, "int")
+    if query is not None:
+        _params["query"] = _SERIALIZER.query("query", query, "str")
+    if address_line is not None:
+        _params["addressLine"] = _SERIALIZER.query("address_line", address_line, "str")
+    if country_region is not None:
+        _params["countryRegion"] = _SERIALIZER.query("country_region", country_region, "str")
+    if bbox is not None:
+        _params["bbox"] = _SERIALIZER.query("bbox", bbox, "[float]", div=",")
+    if view is not None:
+        _params["view"] = _SERIALIZER.query("view", view, "str")
+    if coordinates is not None:
+        _params["coordinates"] = _SERIALIZER.query("coordinates", coordinates, "[float]", div=",")
+    if admin_district is not None:
+        _params["adminDistrict"] = _SERIALIZER.query("admin_district", admin_district, "str")
+    if admin_district2 is not None:
+        _params["adminDistrict2"] = _SERIALIZER.query("admin_district2", admin_district2, "str")
+    if admin_district3 is not None:
+        _params["adminDistrict3"] = _SERIALIZER.query("admin_district3", admin_district3, "str")
+    if locality is not None:
+        _params["locality"] = _SERIALIZER.query("locality", locality, "str")
+    if postal_code is not None:
+        _params["postalCode"] = _SERIALIZER.query("postal_code", postal_code, "str")
+
+    # Construct headers
+    if accept_language is not None:
+        _headers["accept-language"] = _SERIALIZER.header("accept_language", accept_language, "str")
+    if client_id is not None:
+        _headers["client-id"] = _SERIALIZER.header("client_id", client_id, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_maps_search_get_geocoding_batch_request(  # pylint: disable=name-too-long
+    *, client_id: Optional[str] = None, accept_language: Optional[str] = None, **kwargs: Any
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-06-01-preview"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = "/geocode:batch"
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+
+    # Construct headers
+    if client_id is not None:
+        _headers["client-id"] = _SERIALIZER.header("client_id", client_id, "str")
+    if accept_language is not None:
+        _headers["accept-language"] = _SERIALIZER.header("accept_language", accept_language, "str")
+    if content_type is not None:
+        _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_maps_search_get_polygon_request(
+    *,
+    coordinates: list[float],
+    client_id: Optional[str] = None,
+    accept_language: Optional[str] = None,
+    view: Optional[str] = None,
+    result_type: Optional[Union[str, _models.BoundaryResultType]] = None,
+    resolution: Optional[Union[str, _models.Resolution]] = None,
+    **kwargs: Any
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-06-01-preview"))
+    accept = _headers.pop("Accept", "application/geo+json")
+
+    # Construct URL
+    _url = "/search/polygon"
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+    _params["coordinates"] = _SERIALIZER.query("coordinates", coordinates, "[float]", div=",")
+    if view is not None:
+        _params["view"] = _SERIALIZER.query("view", view, "str")
+    if result_type is not None:
+        _params["resultType"] = _SERIALIZER.query("result_type", result_type, "str")
+    if resolution is not None:
+        _params["resolution"] = _SERIALIZER.query("resolution", resolution, "str")
+
+    # Construct headers
+    if client_id is not None:
+        _headers["client-id"] = _SERIALIZER.header("client_id", client_id, "str")
+    if accept_language is not None:
+        _headers["accept-language"] = _SERIALIZER.header("accept_language", accept_language, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_maps_search_get_reverse_geocoding_request(  # pylint: disable=name-too-long
+    *,
+    coordinates: list[float],
+    client_id: Optional[str] = None,
+    accept_language: Optional[str] = None,
+    result_types: Optional[list[Union[str, _models.ReverseGeocodingResultType]]] = None,
+    view: Optional[str] = None,
+    **kwargs: Any
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-06-01-preview"))
+    accept = _headers.pop("Accept", "application/geo+json")
+
+    # Construct URL
+    _url = "/reverseGeocode"
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+    _params["coordinates"] = _SERIALIZER.query("coordinates", coordinates, "[float]", div=",")
+    if result_types is not None:
+        _params["resultTypes"] = _SERIALIZER.query("result_types", result_types, "[str]", div=",")
+    if view is not None:
+        _params["view"] = _SERIALIZER.query("view", view, "str")
+
+    # Construct headers
+    if client_id is not None:
+        _headers["client-id"] = _SERIALIZER.header("client_id", client_id, "str")
+    if accept_language is not None:
+        _headers["accept-language"] = _SERIALIZER.header("accept_language", accept_language, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_maps_search_get_reverse_geocoding_batch_request(  # pylint: disable=name-too-long
+    *, client_id: Optional[str] = None, accept_language: Optional[str] = None, **kwargs: Any
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-06-01-preview"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = "/reverseGeocode:batch"
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+
+    # Construct headers
+    if client_id is not None:
+        _headers["client-id"] = _SERIALIZER.header("client_id", client_id, "str")
+    if accept_language is not None:
+        _headers["accept-language"] = _SERIALIZER.header("accept_language", accept_language, "str")
+    if content_type is not None:
+        _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_maps_search_get_geocode_autocomplete_request(  # pylint: disable=name-too-long
+    *,
+    query: str,
+    client_id: Optional[str] = None,
+    accept_language: Optional[str] = None,
+    coordinates: Optional[list[float]] = None,
+    bbox: Optional[list[float]] = None,
+    top: Optional[int] = None,
+    result_type_groups: Optional[list[Union[str, _models.AutocompleteResultTypeGroups]]] = None,
+    result_types: Optional[list[Union[str, _models.AutocompleteResultType]]] = None,
+    view: Optional[str] = None,
+    country_region: Optional[str] = None,
+    **kwargs: Any
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-06-01-preview"))
+    accept = _headers.pop("Accept", "application/geo+json")
+
+    # Construct URL
+    _url = "/geocode:autocomplete"
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+    _params["query"] = _SERIALIZER.query("query", query, "str")
+    if coordinates is not None:
+        _params["coordinates"] = _SERIALIZER.query("coordinates", coordinates, "[float]", div=",")
+    if bbox is not None:
+        _params["bbox"] = _SERIALIZER.query("bbox", bbox, "[float]", div=",")
+    if top is not None:
+        _params["top"] = _SERIALIZER.query("top", top, "int")
+    if result_type_groups is not None:
+        _params["resultTypeGroups"] = _SERIALIZER.query("result_type_groups", result_type_groups, "[str]", div=",")
+    if result_types is not None:
+        _params["resultTypes"] = _SERIALIZER.query("result_types", result_types, "[str]", div=",")
+    if view is not None:
+        _params["view"] = _SERIALIZER.query("view", view, "str")
+    if country_region is not None:
+        _params["countryRegion"] = _SERIALIZER.query("country_region", country_region, "str")
+
+    # Construct headers
+    if client_id is not None:
+        _headers["client-id"] = _SERIALIZER.header("client_id", client_id, "str")
+    if accept_language is not None:
+        _headers["accept-language"] = _SERIALIZER.header("accept_language", accept_language, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+class _MapsSearchClientOperationsMixin(
+    ClientMixinABC[PipelineClient[HttpRequest, HttpResponse], MapsSearchClientConfiguration]
+):
+
+    @distributed_trace
+    def get_geocoding(  # pylint: disable=too-many-locals
         self,
         *,
         accept_language: Optional[str] = None,
@@ -211,7 +440,7 @@ class SearchOperationGroupOperations:
 
         cls: ClsType[_models.GeocodingResponse] = kwargs.pop("cls", None)
 
-        _request = build_search_operation_group_get_geocoding_request(
+        _request = build_maps_search_get_geocoding_request(
             accept_language=accept_language,
             top=top,
             query=query,
@@ -237,7 +466,7 @@ class SearchOperationGroupOperations:
 
         _decompress = kwargs.pop("decompress", True)
         _stream = kwargs.pop("stream", False)
-        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
 
@@ -246,7 +475,7 @@ class SearchOperationGroupOperations:
         if response.status_code not in [200]:
             if _stream:
                 try:
-                    await response.read()  # Load the body in memory and close the socket
+                    response.read()  # Load the body in memory and close the socket
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
@@ -266,7 +495,7 @@ class SearchOperationGroupOperations:
         return deserialized  # type: ignore
 
     @overload
-    async def get_geocoding_batch(
+    def get_geocoding_batch(
         self,
         geocoding_batch_request_body: _models.GeocodingBatchRequestBody,
         *,
@@ -389,7 +618,7 @@ class SearchOperationGroupOperations:
         """
 
     @overload
-    async def get_geocoding_batch(
+    def get_geocoding_batch(
         self,
         geocoding_batch_request_body: JSON,
         *,
@@ -512,7 +741,7 @@ class SearchOperationGroupOperations:
         """
 
     @overload
-    async def get_geocoding_batch(
+    def get_geocoding_batch(
         self,
         geocoding_batch_request_body: IO[bytes],
         *,
@@ -634,8 +863,8 @@ class SearchOperationGroupOperations:
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
-    @distributed_trace_async
-    async def get_geocoding_batch(
+    @distributed_trace
+    def get_geocoding_batch(
         self,
         geocoding_batch_request_body: Union[_models.GeocodingBatchRequestBody, JSON, IO[bytes]],
         *,
@@ -775,7 +1004,7 @@ class SearchOperationGroupOperations:
         else:
             _content = json.dumps(geocoding_batch_request_body, cls=SdkJSONEncoder, exclude_readonly=True)  # type: ignore
 
-        _request = build_search_operation_group_get_geocoding_batch_request(
+        _request = build_maps_search_get_geocoding_batch_request(
             client_id=client_id,
             accept_language=accept_language,
             content_type=content_type,
@@ -791,7 +1020,7 @@ class SearchOperationGroupOperations:
 
         _decompress = kwargs.pop("decompress", True)
         _stream = kwargs.pop("stream", False)
-        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
 
@@ -800,7 +1029,7 @@ class SearchOperationGroupOperations:
         if response.status_code not in [200]:
             if _stream:
                 try:
-                    await response.read()  # Load the body in memory and close the socket
+                    response.read()  # Load the body in memory and close the socket
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
@@ -816,8 +1045,8 @@ class SearchOperationGroupOperations:
 
         return deserialized  # type: ignore
 
-    @distributed_trace_async
-    async def get_polygon(
+    @distributed_trace
+    def get_polygon(
         self,
         *,
         coordinates: list[float],
@@ -893,7 +1122,7 @@ class SearchOperationGroupOperations:
 
         cls: ClsType[_models.Boundary] = kwargs.pop("cls", None)
 
-        _request = build_search_operation_group_get_polygon_request(
+        _request = build_maps_search_get_polygon_request(
             coordinates=coordinates,
             client_id=client_id,
             accept_language=accept_language,
@@ -911,7 +1140,7 @@ class SearchOperationGroupOperations:
 
         _decompress = kwargs.pop("decompress", True)
         _stream = kwargs.pop("stream", False)
-        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
 
@@ -920,7 +1149,7 @@ class SearchOperationGroupOperations:
         if response.status_code not in [200]:
             if _stream:
                 try:
-                    await response.read()  # Load the body in memory and close the socket
+                    response.read()  # Load the body in memory and close the socket
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
@@ -939,8 +1168,8 @@ class SearchOperationGroupOperations:
 
         return deserialized  # type: ignore
 
-    @distributed_trace_async
-    async def get_reverse_geocoding(
+    @distributed_trace
+    def get_reverse_geocoding(
         self,
         *,
         coordinates: list[float],
@@ -1032,7 +1261,7 @@ class SearchOperationGroupOperations:
 
         cls: ClsType[_models.GeocodingResponse] = kwargs.pop("cls", None)
 
-        _request = build_search_operation_group_get_reverse_geocoding_request(
+        _request = build_maps_search_get_reverse_geocoding_request(
             coordinates=coordinates,
             client_id=client_id,
             accept_language=accept_language,
@@ -1049,7 +1278,7 @@ class SearchOperationGroupOperations:
 
         _decompress = kwargs.pop("decompress", True)
         _stream = kwargs.pop("stream", False)
-        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
 
@@ -1058,7 +1287,7 @@ class SearchOperationGroupOperations:
         if response.status_code not in [200]:
             if _stream:
                 try:
-                    await response.read()  # Load the body in memory and close the socket
+                    response.read()  # Load the body in memory and close the socket
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
@@ -1078,7 +1307,7 @@ class SearchOperationGroupOperations:
         return deserialized  # type: ignore
 
     @overload
-    async def get_reverse_geocoding_batch(
+    def get_reverse_geocoding_batch(
         self,
         reverse_geocoding_batch_request_body: _models.ReverseGeocodingBatchRequestBody,
         *,
@@ -1200,7 +1429,7 @@ class SearchOperationGroupOperations:
         """
 
     @overload
-    async def get_reverse_geocoding_batch(
+    def get_reverse_geocoding_batch(
         self,
         reverse_geocoding_batch_request_body: JSON,
         *,
@@ -1321,7 +1550,7 @@ class SearchOperationGroupOperations:
         """
 
     @overload
-    async def get_reverse_geocoding_batch(
+    def get_reverse_geocoding_batch(
         self,
         reverse_geocoding_batch_request_body: IO[bytes],
         *,
@@ -1441,8 +1670,8 @@ class SearchOperationGroupOperations:
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
-    @distributed_trace_async
-    async def get_reverse_geocoding_batch(
+    @distributed_trace
+    def get_reverse_geocoding_batch(
         self,
         reverse_geocoding_batch_request_body: Union[_models.ReverseGeocodingBatchRequestBody, JSON, IO[bytes]],
         *,
@@ -1580,7 +1809,7 @@ class SearchOperationGroupOperations:
         else:
             _content = json.dumps(reverse_geocoding_batch_request_body, cls=SdkJSONEncoder, exclude_readonly=True)  # type: ignore
 
-        _request = build_search_operation_group_get_reverse_geocoding_batch_request(
+        _request = build_maps_search_get_reverse_geocoding_batch_request(
             client_id=client_id,
             accept_language=accept_language,
             content_type=content_type,
@@ -1596,7 +1825,7 @@ class SearchOperationGroupOperations:
 
         _decompress = kwargs.pop("decompress", True)
         _stream = kwargs.pop("stream", False)
-        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
 
@@ -1605,7 +1834,7 @@ class SearchOperationGroupOperations:
         if response.status_code not in [200]:
             if _stream:
                 try:
-                    await response.read()  # Load the body in memory and close the socket
+                    response.read()  # Load the body in memory and close the socket
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
@@ -1621,7 +1850,7 @@ class SearchOperationGroupOperations:
 
         return deserialized  # type: ignore
 
-    @distributed_trace_async
+    @distributed_trace
     @api_version_validation(
         method_added_on="2025-06-01-preview",
         params_added_on={
@@ -1642,7 +1871,7 @@ class SearchOperationGroupOperations:
         },
         api_versions_list=["2025-06-01-preview"],
     )
-    async def get_geocode_autocomplete(
+    def get_geocode_autocomplete(
         self,
         *,
         query: str,
@@ -1765,7 +1994,7 @@ class SearchOperationGroupOperations:
 
         cls: ClsType[_models.AutocompleteResponse] = kwargs.pop("cls", None)
 
-        _request = build_search_operation_group_get_geocode_autocomplete_request(
+        _request = build_maps_search_get_geocode_autocomplete_request(
             query=query,
             client_id=client_id,
             accept_language=accept_language,
@@ -1787,7 +2016,7 @@ class SearchOperationGroupOperations:
 
         _decompress = kwargs.pop("decompress", True)
         _stream = kwargs.pop("stream", False)
-        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
 
@@ -1796,7 +2025,7 @@ class SearchOperationGroupOperations:
         if response.status_code not in [200]:
             if _stream:
                 try:
-                    await response.read()  # Load the body in memory and close the socket
+                    response.read()  # Load the body in memory and close the socket
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)

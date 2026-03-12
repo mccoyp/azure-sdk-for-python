@@ -17,18 +17,15 @@ from azure.core.rest import AsyncHttpResponse, HttpRequest
 
 from .._utils.serialization import Deserializer, Serializer
 from ._configuration import MapsSearchClientConfiguration
-from .operations import SearchOperationGroupOperations
+from ._operations import _MapsSearchClientOperationsMixin
 
 if TYPE_CHECKING:
     from azure.core.credentials_async import AsyncTokenCredential
 
 
-class MapsSearchClient:
+class MapsSearchClient(_MapsSearchClientOperationsMixin):
     """Azure Maps Search REST APIs.
 
-    :ivar search_operation_group: SearchOperationGroupOperations operations
-    :vartype search_operation_group:
-     azure.maps.search.aio.operations.SearchOperationGroupOperations
     :param credential: Credential used to authenticate requests to the service. Is either a token
      credential type or a key credential type. Required.
     :type credential: ~azure.core.credentials_async.AsyncTokenCredential or
@@ -68,9 +65,6 @@ class MapsSearchClient:
         self._serialize = Serializer()
         self._deserialize = Deserializer()
         self._serialize.client_side_validation = False
-        self.search_operation_group = SearchOperationGroupOperations(
-            self._client, self._config, self._serialize, self._deserialize
-        )
 
     def send_request(
         self, request: HttpRequest, *, stream: bool = False, **kwargs: Any

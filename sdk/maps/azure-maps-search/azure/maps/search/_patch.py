@@ -14,10 +14,16 @@ from typing import Union, Any, MutableMapping, List, Optional
 from azure.core.credentials import AzureKeyCredential, AzureSasCredential, TokenCredential
 from azure.core.pipeline.policies import AzureKeyCredentialPolicy, AzureSasCredentialPolicy
 from ._client import MapsSearchClient as MapsSearchClientGenerated
+from ._enums import BoundaryResultType, LocalizedMapView, Resolution
 
 JSON = MutableMapping[str, Any]  # pylint: disable=unsubscriptable-object
 
-__all__: List[str] = ["MapsSearchClient"]  # Add all objects you want publicly available to users at this package level
+__all__: List[str] = [
+    "BoundaryResultType",
+    "LocalizedMapView",
+    "MapsSearchClient",
+    "Resolution",
+]  # Add all objects you want publicly available to users at this package level
 
 
 def patch_sdk():

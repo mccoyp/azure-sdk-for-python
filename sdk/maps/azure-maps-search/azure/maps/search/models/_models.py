@@ -190,7 +190,7 @@ class AutocompleteFeature(_Model):
 
     :ivar type: Specifies the ``GeoJSON`` type. The only supported object type is Feature. For more
      information, see `RFC 7946 <https://www.rfc-editor.org/rfc/rfc7946>`_. Required. "Feature"
-    :vartype type: str or ~azure.maps.search.models.FeatureTypeEnum
+    :vartype type: str or ~azure.maps.search.models.FeatureType
     :ivar geometry: A valid ``GeoJSON Point`` geometry type. Please refer to `RFC 7946
      <https://tools.ietf.org/html/rfc7946#section-3.1.2>`_ for details.
     :vartype geometry: ~azure.maps.search.models.GeoJsonPoint
@@ -198,7 +198,7 @@ class AutocompleteFeature(_Model):
     :vartype properties: ~azure.maps.search.models.AutocompleteProperties
     """
 
-    type: Union[str, "_models.FeatureTypeEnum"] = rest_field(visibility=["read", "create", "update", "delete", "query"])
+    type: Union[str, "_models.FeatureType"] = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """Specifies the ``GeoJSON`` type. The only supported object type is Feature. For more
      information, see `RFC 7946 <https://www.rfc-editor.org/rfc/rfc7946>`_. Required. \"Feature\""""
     geometry: Optional["_models.GeoJsonPoint"] = rest_field(visibility=["read", "create", "update", "delete", "query"])
@@ -213,7 +213,7 @@ class AutocompleteFeature(_Model):
     def __init__(
         self,
         *,
-        type: Union[str, "_models.FeatureTypeEnum"],
+        type: Union[str, "_models.FeatureType"],
         properties: "_models.AutocompleteProperties",
         geometry: Optional["_models.GeoJsonPoint"] = None,
     ) -> None: ...
@@ -233,7 +233,7 @@ class AutocompleteProperties(_Model):
     """Properties of Autocomplete Result.
 
     :ivar type_group: Address or Place. Known values are: "Address" and "Place".
-    :vartype type_group: str or ~azure.maps.search.models.AutocompleteResultTypeGroupsEnum
+    :vartype type_group: str or ~azure.maps.search.models.AutocompleteResultTypeGroups
     :ivar type: Type of suggestion. Known values are: "Address", "AdminDivision1",
      "AdminDivision2", "AdminDivision3", "AdministrativeBuilding", "Airport", "AirportTerminal",
      "AmusementPark", "AncientSite", "Aquarium", "Archipelago", "Basin", "Battlefield", "Bay",
@@ -255,18 +255,18 @@ class AutocompleteProperties(_Model):
      "SkiArea", "Spring", "Stadium", "StatisticalDistrict", "Temple", "Theater", "TouristRailway",
      "TouristStructure", "Trailhead", "TransportationStructure", "Tunnel", "Valley", "Volcano",
      "Walkway", "Wall", "Waterfall", "WaterFeature", "Wetland", "Winery", and "Zoo".
-    :vartype type: str or ~azure.maps.search.models.AutocompleteResultTypeEnum
+    :vartype type: str or ~azure.maps.search.models.AutocompleteResultType
     :ivar address: The address of the result.
     :vartype address: ~azure.maps.search.models.Address
     :ivar name: The name of the place. This field will not appear if the returned type is Address.
     :vartype name: str
     """
 
-    type_group: Optional[Union[str, "_models.AutocompleteResultTypeGroupsEnum"]] = rest_field(
+    type_group: Optional[Union[str, "_models.AutocompleteResultTypeGroups"]] = rest_field(
         name="typeGroup", visibility=["read", "create", "update", "delete", "query"]
     )
     """Address or Place. Known values are: \"Address\" and \"Place\"."""
-    type: Optional[Union[str, "_models.AutocompleteResultTypeEnum"]] = rest_field(
+    type: Optional[Union[str, "_models.AutocompleteResultType"]] = rest_field(
         visibility=["read", "create", "update", "delete", "query"]
     )
     """Type of suggestion. Known values are: \"Address\", \"AdminDivision1\", \"AdminDivision2\",
@@ -302,8 +302,8 @@ class AutocompleteProperties(_Model):
     def __init__(
         self,
         *,
-        type_group: Optional[Union[str, "_models.AutocompleteResultTypeGroupsEnum"]] = None,
-        type: Optional[Union[str, "_models.AutocompleteResultTypeEnum"]] = None,
+        type_group: Optional[Union[str, "_models.AutocompleteResultTypeGroups"]] = None,
+        type: Optional[Union[str, "_models.AutocompleteResultType"]] = None,
         address: Optional["_models.Address"] = None,
         name: Optional[str] = None,
     ) -> None: ...
@@ -325,7 +325,7 @@ class AutocompleteResponse(_Model):
     :ivar type: Specifies the ``GeoJSON`` type. The only supported object type is
      ``FeatureCollection``. For more information, see `RFC 7946
      <https://www.rfc-editor.org/rfc/rfc7946>`_. "FeatureCollection"
-    :vartype type: str or ~azure.maps.search.models.FeatureCollectionEnum
+    :vartype type: str or ~azure.maps.search.models.FeatureCollection
     :ivar features: Features of the autocomplete result.
     :vartype features: list[~azure.maps.search.models.AutocompleteFeature]
     :ivar next_link: The is the link to the next page of the features returned. If it's the last
@@ -333,7 +333,7 @@ class AutocompleteResponse(_Model):
     :vartype next_link: str
     """
 
-    type: Optional[Union[str, "_models.FeatureCollectionEnum"]] = rest_field(
+    type: Optional[Union[str, "_models.FeatureCollection"]] = rest_field(
         visibility=["read", "create", "update", "delete", "query"]
     )
     """Specifies the ``GeoJSON`` type. The only supported object type is ``FeatureCollection``. For
@@ -351,7 +351,7 @@ class AutocompleteResponse(_Model):
     def __init__(
         self,
         *,
-        type: Optional[Union[str, "_models.FeatureCollectionEnum"]] = None,
+        type: Optional[Union[str, "_models.FeatureCollection"]] = None,
         features: Optional[list["_models.AutocompleteFeature"]] = None,
         next_link: Optional[str] = None,
     ) -> None: ...
@@ -376,7 +376,7 @@ class Boundary(_Model):
     MultiPolygon sub-types.
 
     :ivar type: The type of a feature must be Feature. "Feature"
-    :vartype type: str or ~azure.maps.search.models.FeatureTypeEnum
+    :vartype type: str or ~azure.maps.search.models.FeatureType
     :ivar geometry: A valid ``GeoJSON GeometryCollection`` object type. Please refer to `RFC 7946
      <https://tools.ietf.org/html/rfc7946#section-3.1.8>`_ for details. Required.
     :vartype geometry: ~azure.maps.search.models.GeoJsonGeometryCollection
@@ -384,7 +384,7 @@ class Boundary(_Model):
     :vartype properties: ~azure.maps.search.models.BoundaryProperties
     """
 
-    type: Optional[Union[str, "_models.FeatureTypeEnum"]] = rest_field(
+    type: Optional[Union[str, "_models.FeatureType"]] = rest_field(
         visibility=["read", "create", "update", "delete", "query"]
     )
     """The type of a feature must be Feature. \"Feature\""""
@@ -403,7 +403,7 @@ class Boundary(_Model):
         self,
         *,
         geometry: "_models.GeoJsonGeometryCollection",
-        type: Optional[Union[str, "_models.FeatureTypeEnum"]] = None,
+        type: Optional[Union[str, "_models.FeatureType"]] = None,
         properties: Optional["_models.BoundaryProperties"] = None,
     ) -> None: ...
 
@@ -517,7 +517,7 @@ class FeaturesItem(_Model):
     """FeaturesItem.
 
     :ivar type: The type of a feature must be Feature. "Feature"
-    :vartype type: str or ~azure.maps.search.models.FeatureTypeEnum
+    :vartype type: str or ~azure.maps.search.models.FeatureType
     :ivar id: ID for feature returned.
     :vartype id: str
     :ivar properties:
@@ -530,7 +530,7 @@ class FeaturesItem(_Model):
     :vartype bbox: list[float]
     """
 
-    type: Optional[Union[str, "_models.FeatureTypeEnum"]] = rest_field(
+    type: Optional[Union[str, "_models.FeatureType"]] = rest_field(
         visibility=["read", "create", "update", "delete", "query"]
     )
     """The type of a feature must be Feature. \"Feature\""""
@@ -551,7 +551,7 @@ class FeaturesItem(_Model):
         self,
         *,
         geometry: "_models.GeoJsonPoint",
-        type: Optional[Union[str, "_models.FeatureTypeEnum"]] = None,
+        type: Optional[Union[str, "_models.FeatureType"]] = None,
         id: Optional[str] = None,  # pylint: disable=redefined-builtin
         properties: Optional["_models.FeaturesItemProperties"] = None,
         bbox: Optional[list[float]] = None,
@@ -591,7 +591,7 @@ class FeaturesItemProperties(_Model):
      The confidence of a geocoded location is based on many factors including the
      relative importance of the geocoded location and the user’s location, if
      specified. Known values are: "High", "Medium", and "Low".
-    :vartype confidence: str or ~azure.maps.search.models.ConfidenceEnum
+    :vartype confidence: str or ~azure.maps.search.models.Confidence
     :ivar match_codes: One or more match code values that represent the geocoding level for each
      location in the response.
 
@@ -623,7 +623,7 @@ class FeaturesItemProperties(_Model):
      result is returned. For example, if a match for the requested address cannot be
      found, then a match code of ``UpHierarchy`` with a RoadBlock entity type may be
      returned.
-    :vartype match_codes: list[str or ~azure.maps.search.models.MatchCodesEnum]
+    :vartype match_codes: list[str or ~azure.maps.search.models.MatchCodes]
     :ivar address: The address of the result.
     :vartype address: ~azure.maps.search.models.Address
     :ivar geocode_points: A collection of geocode points that differ in how they were calculated
@@ -643,7 +643,7 @@ class FeaturesItemProperties(_Model):
       * AdminDivision1
       * AdminDivision2
       * CountryRegion."""
-    confidence: Optional[Union[str, "_models.ConfidenceEnum"]] = rest_field(
+    confidence: Optional[Union[str, "_models.Confidence"]] = rest_field(
         visibility=["read", "create", "update", "delete", "query"]
     )
     """The level of confidence that the geocoded location result is a match. Use this
@@ -653,7 +653,7 @@ class FeaturesItemProperties(_Model):
      The confidence of a geocoded location is based on many factors including the
      relative importance of the geocoded location and the user’s location, if
      specified. Known values are: \"High\", \"Medium\", and \"Low\"."""
-    match_codes: Optional[list[Union[str, "_models.MatchCodesEnum"]]] = rest_field(
+    match_codes: Optional[list[Union[str, "_models.MatchCodes"]]] = rest_field(
         name="matchCodes", visibility=["read", "create", "update", "delete", "query"]
     )
     """One or more match code values that represent the geocoding level for each
@@ -699,8 +699,8 @@ class FeaturesItemProperties(_Model):
         self,
         *,
         type: Optional[str] = None,
-        confidence: Optional[Union[str, "_models.ConfidenceEnum"]] = None,
-        match_codes: Optional[list[Union[str, "_models.MatchCodesEnum"]]] = None,
+        confidence: Optional[Union[str, "_models.Confidence"]] = None,
+        match_codes: Optional[list[Union[str, "_models.MatchCodes"]]] = None,
         address: Optional["_models.Address"] = None,
         geocode_points: Optional[list["_models.GeocodePointsItem"]] = None,
     ) -> None: ...
@@ -724,24 +724,24 @@ class GeocodePointsItem(_Model):
     :vartype geometry: ~azure.maps.search.models.GeoJsonPoint
     :ivar calculation_method: The method that was used to compute the geocode point. Known values
      are: "Interpolation", "InterpolationOffset", "Parcel", and "Rooftop".
-    :vartype calculation_method: str or ~azure.maps.search.models.CalculationMethodEnum
+    :vartype calculation_method: str or ~azure.maps.search.models.CalculationMethod
     :ivar usage_types: The best use for the geocode point. Each geocode point is defined as a
      ``Route`` point, a ``Display`` point or both. Use ``Route`` points if you are creating a route
      to the location. Use ``Display`` points if you are showing the location on a map. For example,
      if the location is a park, a ``Route`` point may specify an entrance to the park where you can
      enter with a car, and a ``Display`` point may be a point that specifies the center of the park.
-    :vartype usage_types: list[str or ~azure.maps.search.models.UsageTypeEnum]
+    :vartype usage_types: list[str or ~azure.maps.search.models.UsageType]
     """
 
     geometry: Optional["_models.GeoJsonPoint"] = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """A valid ``GeoJSON Point`` geometry type. Please refer to `RFC 7946
      <https://tools.ietf.org/html/rfc7946#section-3.1.2>`_ for details."""
-    calculation_method: Optional[Union[str, "_models.CalculationMethodEnum"]] = rest_field(
+    calculation_method: Optional[Union[str, "_models.CalculationMethod"]] = rest_field(
         name="calculationMethod", visibility=["read", "create", "update", "delete", "query"]
     )
     """The method that was used to compute the geocode point. Known values are: \"Interpolation\",
      \"InterpolationOffset\", \"Parcel\", and \"Rooftop\"."""
-    usage_types: Optional[list[Union[str, "_models.UsageTypeEnum"]]] = rest_field(
+    usage_types: Optional[list[Union[str, "_models.UsageType"]]] = rest_field(
         name="usageTypes", visibility=["read", "create", "update", "delete", "query"]
     )
     """The best use for the geocode point. Each geocode point is defined as a ``Route`` point, a
@@ -755,8 +755,8 @@ class GeocodePointsItem(_Model):
         self,
         *,
         geometry: Optional["_models.GeoJsonPoint"] = None,
-        calculation_method: Optional[Union[str, "_models.CalculationMethodEnum"]] = None,
-        usage_types: Optional[list[Union[str, "_models.UsageTypeEnum"]]] = None,
+        calculation_method: Optional[Union[str, "_models.CalculationMethod"]] = None,
+        usage_types: Optional[list[Union[str, "_models.UsageType"]]] = None,
     ) -> None: ...
 
     @overload
@@ -1028,7 +1028,7 @@ class GeocodingBatchResponseItem(_Model):
     :ivar type: Specifies the ``GeoJSON`` type. The only supported object type is
      ``FeatureCollection``. For more information, see `RFC 7946
      <https://www.rfc-editor.org/rfc/rfc7946>`_. "FeatureCollection"
-    :vartype type: str or ~azure.maps.search.models.FeatureCollectionEnum
+    :vartype type: str or ~azure.maps.search.models.FeatureCollection
     :ivar features:
     :vartype features: list[~azure.maps.search.models.FeaturesItem]
     :ivar next_link: The is the link to the next page of the features returned. If it's the last
@@ -1042,7 +1042,7 @@ class GeocodingBatchResponseItem(_Model):
         name="optionalId", visibility=["read", "create", "update", "delete", "query"]
     )
     """id of the batchItem which would be the same as the id in the request."""
-    type: Optional[Union[str, "_models.FeatureCollectionEnum"]] = rest_field(
+    type: Optional[Union[str, "_models.FeatureCollection"]] = rest_field(
         visibility=["read", "create", "update", "delete", "query"]
     )
     """Specifies the ``GeoJSON`` type. The only supported object type is ``FeatureCollection``. For
@@ -1062,7 +1062,7 @@ class GeocodingBatchResponseItem(_Model):
         self,
         *,
         optional_id: Optional[str] = None,
-        type: Optional[Union[str, "_models.FeatureCollectionEnum"]] = None,
+        type: Optional[Union[str, "_models.FeatureCollection"]] = None,
         features: Optional[list["_models.FeaturesItem"]] = None,
         next_link: Optional[str] = None,
         error: Optional["_models.ErrorDetail"] = None,
@@ -1122,7 +1122,7 @@ class GeocodingResponse(_Model):
     :ivar type: Specifies the ``GeoJSON`` type. The only supported object type is
      ``FeatureCollection``. For more information, see `RFC 7946
      <https://www.rfc-editor.org/rfc/rfc7946>`_. "FeatureCollection"
-    :vartype type: str or ~azure.maps.search.models.FeatureCollectionEnum
+    :vartype type: str or ~azure.maps.search.models.FeatureCollection
     :ivar features:
     :vartype features: list[~azure.maps.search.models.FeaturesItem]
     :ivar next_link: The is the link to the next page of the features returned. If it's the last
@@ -1130,7 +1130,7 @@ class GeocodingResponse(_Model):
     :vartype next_link: str
     """
 
-    type: Optional[Union[str, "_models.FeatureCollectionEnum"]] = rest_field(
+    type: Optional[Union[str, "_models.FeatureCollection"]] = rest_field(
         visibility=["read", "create", "update", "delete", "query"]
     )
     """Specifies the ``GeoJSON`` type. The only supported object type is ``FeatureCollection``. For
@@ -1147,7 +1147,7 @@ class GeocodingResponse(_Model):
     def __init__(
         self,
         *,
-        type: Optional[Union[str, "_models.FeatureCollectionEnum"]] = None,
+        type: Optional[Union[str, "_models.FeatureCollection"]] = None,
         features: Optional[list["_models.FeaturesItem"]] = None,
         next_link: Optional[str] = None,
     ) -> None: ...
@@ -1668,7 +1668,7 @@ class ReverseGeocodingBatchRequestItem(_Model):
      most specific entity is returned. For example, if you specify Address and
      AdminDistrict1 as entity types and entities were found for both types, only the
      Address entity information is returned in the response.
-    :vartype result_types: list[str or ~azure.maps.search.models.ResultTypeEnum]
+    :vartype result_types: list[str or ~azure.maps.search.models.ResultType]
     :ivar view: A string that specifies an `ISO 3166-1 Alpha-2 region/country code
      <https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2>`_. This will alter Geopolitical disputed
      borders and labels to align with the specified user region.
@@ -1681,7 +1681,7 @@ class ReverseGeocodingBatchRequestItem(_Model):
     """id of the request which would show in corresponding batchItem."""
     coordinates: Optional[list[float]] = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """The coordinates of the location that you want to reverse geocode. Example: [lon,lat]."""
-    result_types: Optional[list[Union[str, "_models.ResultTypeEnum"]]] = rest_field(
+    result_types: Optional[list[Union[str, "_models.ResultType"]]] = rest_field(
         name="resultTypes", visibility=["read", "create", "update", "delete", "query"]
     )
     """Specify entity types that you want in the response. Only the types you specify will be
@@ -1713,7 +1713,7 @@ class ReverseGeocodingBatchRequestItem(_Model):
         *,
         optional_id: Optional[str] = None,
         coordinates: Optional[list[float]] = None,
-        result_types: Optional[list[Union[str, "_models.ResultTypeEnum"]]] = None,
+        result_types: Optional[list[Union[str, "_models.ResultType"]]] = None,
         view: Optional[str] = None,
     ) -> None: ...
 
