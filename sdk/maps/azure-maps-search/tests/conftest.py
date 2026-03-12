@@ -10,10 +10,9 @@ import pytest
 
 from devtools_testutils import (
     add_general_regex_sanitizer,
-    add_header_regex_sanitizer,
-    add_oauth_response_sanitizer,
     test_proxy,
     remove_batch_sanitizers,
+    set_custom_default_matcher,
 )
 
 
@@ -25,6 +24,7 @@ def add_sanitizers(test_proxy):
     add_general_regex_sanitizer(regex=subscription_key, value="AzureMapsSubscriptionKey")
     add_general_regex_sanitizer(regex=tenant_id, value="MyTenantId")
     add_general_regex_sanitizer(regex=client_secret, value="MyClientSecret")
+    set_custom_default_matcher(ignored_headers="Accept")
     # add_oauth_response_sanitizer()
 
     # Remove the following sanitizers since certain fields are needed in tests and are non-sensitive:
