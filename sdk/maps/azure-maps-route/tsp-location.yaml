@@ -1,0 +1,4 @@
+directory: specification/maps/data-plane/Route
+commit: decbf2e1fdf65a642756ca0e0a924a8a6ca44dec
+repo: Azure/azure-rest-api-specs
+additionalDirectories:
