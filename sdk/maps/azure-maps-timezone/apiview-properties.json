@@ -1,0 +1,32 @@
+{
+    "CrossLanguagePackageId": "MapsTimezone",
+    "CrossLanguageDefinitionId": {
+        "azure.maps.timezone.models.CountryRecord": "MapsTimezone.CountryRecord",
+        "azure.maps.timezone.models.ErrorAdditionalInfo": "MapsTimezone.ErrorAdditionalInfo",
+        "azure.maps.timezone.models.ErrorDetail": "MapsTimezone.ErrorDetail",
+        "azure.maps.timezone.models.ErrorResponse": "MapsTimezone.ErrorResponse",
+        "azure.maps.timezone.models.IanaId": "MapsTimezone.IanaId",
+        "azure.maps.timezone.models.ReferenceTime": "MapsTimezone.ReferenceTime",
+        "azure.maps.timezone.models.RepresentativePoint": "MapsTimezone.RepresentativePoint",
+        "azure.maps.timezone.models.TimeTransition": "MapsTimezone.TimeTransition",
+        "azure.maps.timezone.models.TimezoneIanaVersionResult": "MapsTimezone.TimezoneIanaVersionResult",
+        "azure.maps.timezone.models.TimezoneId": "MapsTimezone.TimezoneId",
+        "azure.maps.timezone.models.TimezoneNames": "MapsTimezone.TimezoneNames",
+        "azure.maps.timezone.models.TimezoneResult": "MapsTimezone.TimezoneResult",
+        "azure.maps.timezone.models.TimezoneWindows": "MapsTimezone.TimezoneWindows",
+        "azure.maps.timezone.models.JsonFormat": "MapsTimezone.JsonFormat",
+        "azure.maps.timezone.models.TimezoneOptions": "MapsTimezone.TimezoneOptions",
+        "azure.maps.timezone.MapsTimezoneClient.get_timezone_by_id": "MapsTimezone.getTimezoneById",
+        "azure.maps.timezone.aio.MapsTimezoneClient.get_timezone_by_id": "MapsTimezone.getTimezoneById",
+        "azure.maps.timezone.MapsTimezoneClient.get_timezone_by_coordinates": "MapsTimezone.getTimezoneByCoordinates",
+        "azure.maps.timezone.aio.MapsTimezoneClient.get_timezone_by_coordinates": "MapsTimezone.getTimezoneByCoordinates",
+        "azure.maps.timezone.MapsTimezoneClient.get_windows_timezone_ids": "MapsTimezone.getWindowsTimezoneIds",
+        "azure.maps.timezone.aio.MapsTimezoneClient.get_windows_timezone_ids": "MapsTimezone.getWindowsTimezoneIds",
+        "azure.maps.timezone.MapsTimezoneClient.get_iana_timezone_ids": "MapsTimezone.getIanaTimezoneIds",
+        "azure.maps.timezone.aio.MapsTimezoneClient.get_iana_timezone_ids": "MapsTimezone.getIanaTimezoneIds",
+        "azure.maps.timezone.MapsTimezoneClient.get_iana_version": "MapsTimezone.getIanaVersion",
+        "azure.maps.timezone.aio.MapsTimezoneClient.get_iana_version": "MapsTimezone.getIanaVersion",
+        "azure.maps.timezone.MapsTimezoneClient.convert_windows_timezone_to_iana": "MapsTimezone.getWindowsToIana",
+        "azure.maps.timezone.aio.MapsTimezoneClient.convert_windows_timezone_to_iana": "MapsTimezone.getWindowsToIana"
+    }
+}

@@ -14,7 +14,7 @@ from azure.core.tracing.decorator import distributed_trace
 
 from azure.core.credentials import AzureKeyCredential, AzureSasCredential, TokenCredential
 from azure.core.pipeline.policies import AzureKeyCredentialPolicy, AzureSasCredentialPolicy
-from ._client import TimezoneClient as TimezoneClientGenerated
+from ._client import MapsTimezoneClient as TimezoneClientGenerated
 
 if sys.version_info >= (3, 9):
     from collections.abc import MutableMapping
@@ -126,8 +126,8 @@ class MapsTimeZoneClient(TimezoneClientGenerated):
                 accept_language=accept_language,
                 options=options,
                 time_stamp=time_stamp,
-                dst_from=dst_from,
-                dst_lasting_years=dst_lasting_years,
+                daylight_savings_time_from=dst_from,
+                daylight_savings_time_lasting_years=dst_lasting_years,
                 **kwargs
             )
         if coordinates:
@@ -138,8 +138,8 @@ class MapsTimeZoneClient(TimezoneClientGenerated):
                 accept_language=accept_language,
                 options=options,
                 time_stamp=time_stamp,
-                dst_from=dst_from,
-                dst_lasting_years=dst_lasting_years,
+                daylight_savings_time_from=dst_from,
+                daylight_savings_time_lasting_years=dst_lasting_years,
                 **kwargs
             )
 

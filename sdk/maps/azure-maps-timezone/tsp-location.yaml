@@ -1,0 +1,4 @@
+directory: specification/maps/data-plane/Timezone
+commit: cca397b2bc7394d97e3438ea7cbb6793008f84c3
+repo: Azure/azure-rest-api-specs
+additionalDirectories:
