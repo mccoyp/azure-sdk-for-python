@@ -16,18 +16,16 @@ from azure.core.pipeline import policies
 from azure.core.rest import HttpRequest, HttpResponse
 
 from ._configuration import MapsRenderClientConfiguration
+from ._operations import _MapsRenderClientOperationsMixin
 from ._utils.serialization import Deserializer, Serializer
-from .operations import RenderOperations
 
 if TYPE_CHECKING:
     from azure.core.credentials import TokenCredential
 
 
-class MapsRenderClient:
+class MapsRenderClient(_MapsRenderClientOperationsMixin):
     """Azure Maps Render REST APIs.
 
-    :ivar render: RenderOperations operations
-    :vartype render: azure.maps.render.operations.RenderOperations
     :param credential: Credential used to authenticate requests to the service. Is either a token
      credential type or a key credential type. Required.
     :type credential: ~azure.core.credentials.TokenCredential or
@@ -67,7 +65,6 @@ class MapsRenderClient:
         self._serialize = Serializer()
         self._deserialize = Deserializer()
         self._serialize.client_side_validation = False
-        self.render = RenderOperations(self._client, self._config, self._serialize, self._deserialize)
 
     def send_request(self, request: HttpRequest, *, stream: bool = False, **kwargs: Any) -> HttpResponse:
         """Runs the network request through the client's chained policies.

@@ -17,17 +17,15 @@ from azure.core.rest import AsyncHttpResponse, HttpRequest
 
 from .._utils.serialization import Deserializer, Serializer
 from ._configuration import MapsRenderClientConfiguration
-from .operations import RenderOperations
+from ._operations import _MapsRenderClientOperationsMixin
 
 if TYPE_CHECKING:
     from azure.core.credentials_async import AsyncTokenCredential
 
 
-class MapsRenderClient:
+class MapsRenderClient(_MapsRenderClientOperationsMixin):
     """Azure Maps Render REST APIs.
 
-    :ivar render: RenderOperations operations
-    :vartype render: azure.maps.render.aio.operations.RenderOperations
     :param credential: Credential used to authenticate requests to the service. Is either a token
      credential type or a key credential type. Required.
     :type credential: ~azure.core.credentials_async.AsyncTokenCredential or
@@ -67,7 +65,6 @@ class MapsRenderClient:
         self._serialize = Serializer()
         self._deserialize = Deserializer()
         self._serialize.client_side_validation = False
-        self.render = RenderOperations(self._client, self._config, self._serialize, self._deserialize)
 
     def send_request(
         self, request: HttpRequest, *, stream: bool = False, **kwargs: Any

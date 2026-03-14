@@ -15,8 +15,46 @@ from azure.core.pipeline.policies import AzureKeyCredentialPolicy, AzureSasCrede
 
 from ._client import MapsRenderClient as MapsRenderClientGenerated
 from ._version import API_VERSION
+from .models import (  # type: ignore
+    Copyright,
+    CopyrightCaption,
+    ErrorAdditionalInfo,
+    ErrorDetail,
+    ErrorResponse,
+    MapAttribution,
+    MapTileset,
+    RegionCopyrights,
+    RegionCopyrightsCountry,
+    IncludeText,
+    LocalizedMapView,
+    MapTileSize,
+    MediaType,
+    ResponseFormat,
+    Tileset,
+    TilesetID,
+    TrafficTilesetId,
+)
 
-__all__: List[str] = ["MapsRenderClient"]  # Add all objects you want publicly available to users at this package level
+__all__: List[str] = [
+    "Copyright",
+    "CopyrightCaption",
+    "ErrorAdditionalInfo",
+    "ErrorDetail",
+    "ErrorResponse",
+    "MapAttribution",
+    "MapsRenderClient",
+    "MapTileset",
+    "RegionCopyrights",
+    "RegionCopyrightsCountry",
+    "IncludeText",
+    "LocalizedMapView",
+    "MapTileSize",
+    "MediaType",
+    "ResponseFormat",
+    "Tileset",
+    "TilesetID",
+    "TrafficTilesetId",
+]  # Add all objects you want publicly available to users at this package level
 
 
 def patch_sdk():
