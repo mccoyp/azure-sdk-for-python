@@ -2,6 +2,7 @@
     "CrossLanguagePackageId": "MapsRoute",
     "CrossLanguageDefinitionId": {
         "azure.maps.route.models.AdminDistrict": "MapsRoute.AdminDistrict",
+        "azure.maps.route.models.CommonErrorDetail": "CommonErrorDetail",
         "azure.maps.route.models.CountryRegion": "MapsRoute.CountryRegion",
         "azure.maps.route.models.DirectionsBatchRequestBody": "MapsRoute.DirectionsBatchRequestBody",
         "azure.maps.route.models.DirectionsBatchRequestItem": "MapsRoute.DirectionsBatchRequestItem",
@@ -9,8 +10,7 @@
         "azure.maps.route.models.DirectionsBatchResponseItem": "MapsRoute.DirectionsBatchResponseItem",
         "azure.maps.route.models.DirectionsBatchResponseSummary": "MapsRoute.DirectionsBatchResponseSummary",
         "azure.maps.route.models.DirectionsRequest": "MapsRoute.DirectionsRequest",
-        "azure.maps.route.models.ErrorAdditionalInfo": "MapsRoute.ErrorAdditionalInfo",
-        "azure.maps.route.models.ErrorDetail": "MapsRoute.ErrorDetail",
+        "azure.maps.route.models.ErrorAdditionalInfo": "ErrorAdditionalInfo",
         "azure.maps.route.models.FeatureCollection": "MapsRoute.FeatureCollection",
         "azure.maps.route.models.FeatureProperties": "MapsRoute.FeatureProperties",
         "azure.maps.route.models.FeaturesItem": "MapsRoute.FeaturesItem",

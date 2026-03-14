@@ -15,6 +15,7 @@ if TYPE_CHECKING:
 
 from ._models import (  # type: ignore
     AdminDistrict,
+    CommonErrorDetail,
     CountryRegion,
     DirectionsBatchRequestBody,
     DirectionsBatchRequestItem,
@@ -23,7 +24,6 @@ from ._models import (  # type: ignore
     DirectionsBatchResponseSummary,
     DirectionsRequest,
     ErrorAdditionalInfo,
-    ErrorDetail,
     FeatureCollection,
     FeatureProperties,
     FeaturesItem,
@@ -128,6 +128,7 @@ from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
     "AdminDistrict",
+    "CommonErrorDetail",
     "CountryRegion",
     "DirectionsBatchRequestBody",
     "DirectionsBatchRequestItem",
@@ -136,7 +137,6 @@ __all__ = [
     "DirectionsBatchResponseSummary",
     "DirectionsRequest",
     "ErrorAdditionalInfo",
-    "ErrorDetail",
     "FeatureCollection",
     "FeatureProperties",
     "FeaturesItem",

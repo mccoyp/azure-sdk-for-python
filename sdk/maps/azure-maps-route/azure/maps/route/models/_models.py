@@ -51,6 +51,35 @@ class AdminDistrict(_Model):
         super().__init__(*args, **kwargs)
 
 
+class CommonErrorDetail(_Model):
+    """The error detail.
+
+    :ivar code: The error code.
+    :vartype code: str
+    :ivar message: The error message.
+    :vartype message: str
+    :ivar target: The error target.
+    :vartype target: str
+    :ivar details: The error details.
+    :vartype details: list[~azure.maps.route.models.CommonErrorDetail]
+    :ivar additional_info: The error additional info.
+    :vartype additional_info: list[~azure.maps.route.models.ErrorAdditionalInfo]
+    """
+
+    code: Optional[str] = rest_field(visibility=["read"])
+    """The error code."""
+    message: Optional[str] = rest_field(visibility=["read"])
+    """The error message."""
+    target: Optional[str] = rest_field(visibility=["read"])
+    """The error target."""
+    details: Optional[list["_models.CommonErrorDetail"]] = rest_field(visibility=["read"])
+    """The error details."""
+    additional_info: Optional[list["_models.ErrorAdditionalInfo"]] = rest_field(
+        name="additionalInfo", visibility=["read"]
+    )
+    """The error additional info."""
+
+
 class CountryRegion(_Model):
     """Represents a country or region, containing related details.
 
@@ -410,7 +439,7 @@ class DirectionsBatchResponseItem(_Model):
      <https://www.rfc-editor.org/rfc/rfc7946#section-3.2>`_.
     :vartype features: list[~azure.maps.route.models.FeaturesItem]
     :ivar error: The error detail.
-    :vartype error: ~azure.maps.route.models.ErrorDetail
+    :vartype error: ~azure.maps.route.models.CommonErrorDetail
     """
 
     optional_id: Optional[str] = rest_field(
@@ -432,7 +461,9 @@ class DirectionsBatchResponseItem(_Model):
     )
     """``GeoJSON`` feature object that contains Geometry object and additional properties. For more
      information, see `RFC 7946, Section 3.2 <https://www.rfc-editor.org/rfc/rfc7946#section-3.2>`_."""
-    error: Optional["_models.ErrorDetail"] = rest_field(visibility=["read", "create", "update", "delete", "query"])
+    error: Optional["_models.CommonErrorDetail"] = rest_field(
+        visibility=["read", "create", "update", "delete", "query"]
+    )
     """The error detail."""
 
     @overload
@@ -443,7 +474,7 @@ class DirectionsBatchResponseItem(_Model):
         alternative_routes: Optional[list["_models.FeatureCollection"]] = None,
         type: Optional[Union[str, "_models.FeatureTypeEnum"]] = None,
         features: Optional[list["_models.FeaturesItem"]] = None,
-        error: Optional["_models.ErrorDetail"] = None,
+        error: Optional["_models.CommonErrorDetail"] = None,
     ) -> None: ...
 
     @overload
@@ -733,42 +764,13 @@ class ErrorAdditionalInfo(_Model):
     :ivar type: The additional info type.
     :vartype type: str
     :ivar info: The additional info.
-    :vartype info: dict[str, any]
+    :vartype info: any
     """
 
     type: Optional[str] = rest_field(visibility=["read"])
     """The additional info type."""
-    info: Optional[dict[str, Any]] = rest_field(visibility=["read"])
+    info: Optional[Any] = rest_field(visibility=["read"])
     """The additional info."""
-
-
-class ErrorDetail(_Model):
-    """The error detail.
-
-    :ivar code: The error code.
-    :vartype code: str
-    :ivar message: The error message.
-    :vartype message: str
-    :ivar target: The error target.
-    :vartype target: str
-    :ivar details: The error details.
-    :vartype details: list[~azure.maps.route.models.ErrorDetail]
-    :ivar additional_info: The error additional info.
-    :vartype additional_info: list[~azure.maps.route.models.ErrorAdditionalInfo]
-    """
-
-    code: Optional[str] = rest_field(visibility=["read"])
-    """The error code."""
-    message: Optional[str] = rest_field(visibility=["read"])
-    """The error message."""
-    target: Optional[str] = rest_field(visibility=["read"])
-    """The error target."""
-    details: Optional[list["_models.ErrorDetail"]] = rest_field(visibility=["read"])
-    """The error details."""
-    additional_info: Optional[list["_models.ErrorAdditionalInfo"]] = rest_field(
-        name="additionalInfo", visibility=["read"]
-    )
-    """The error additional info."""
 
 
 class FeatureCollection(_Model):
@@ -2530,7 +2532,7 @@ class RouteMatrixItemResult(_Model):
      ``optimizeRoute`` includes traffic considerations.
     :vartype duration_traffic_in_seconds: int
     :ivar error: The error detail.
-    :vartype error: ~azure.maps.route.models.ErrorDetail
+    :vartype error: ~azure.maps.route.models.CommonErrorDetail
     """
 
     status_code: Optional[int] = rest_field(
@@ -2576,7 +2578,9 @@ class RouteMatrixItemResult(_Model):
     """The time that it takes, in seconds, to travel a corresponding ``TravelDistance`` with current
      traffic conditions. This value is provided if ``optimizeRoute`` includes traffic
      considerations."""
-    error: Optional["_models.ErrorDetail"] = rest_field(visibility=["read", "create", "update", "delete", "query"])
+    error: Optional["_models.CommonErrorDetail"] = rest_field(
+        visibility=["read", "create", "update", "delete", "query"]
+    )
     """The error detail."""
 
     @overload
@@ -2591,7 +2595,7 @@ class RouteMatrixItemResult(_Model):
         distance_in_meters: Optional[float] = None,
         duration_in_seconds: Optional[int] = None,
         duration_traffic_in_seconds: Optional[int] = None,
-        error: Optional["_models.ErrorDetail"] = None,
+        error: Optional["_models.CommonErrorDetail"] = None,
     ) -> None: ...
 
     @overload
@@ -3109,7 +3113,7 @@ class RouteOperation(_Model):
     :ivar last_action_at: Timestamp when the operation status was updated.
     :vartype last_action_at: ~datetime.datetime
     :ivar error: The error detail.
-    :vartype error: ~azure.maps.route.models.ErrorDetail
+    :vartype error: ~azure.maps.route.models.CommonErrorDetail
     """
 
     id: Optional[str] = rest_field(visibility=["read", "create", "update", "delete", "query"])
@@ -3135,7 +3139,9 @@ class RouteOperation(_Model):
         name="lastActionAt", visibility=["read", "create", "update", "delete", "query"], format="rfc3339"
     )
     """Timestamp when the operation status was updated."""
-    error: Optional["_models.ErrorDetail"] = rest_field(visibility=["read", "create", "update", "delete", "query"])
+    error: Optional["_models.CommonErrorDetail"] = rest_field(
+        visibility=["read", "create", "update", "delete", "query"]
+    )
     """The error detail."""
 
     @overload
@@ -3148,7 +3154,7 @@ class RouteOperation(_Model):
         result: Optional["_models.RouteOperationResult"] = None,
         created_at: Optional[datetime.datetime] = None,
         last_action_at: Optional[datetime.datetime] = None,
-        error: Optional["_models.ErrorDetail"] = None,
+        error: Optional["_models.CommonErrorDetail"] = None,
     ) -> None: ...
 
     @overload
@@ -3504,7 +3510,7 @@ class RouteRangeBatchResponseItem(_Model):
      <https://www.rfc-editor.org/rfc/rfc7946#section-3.2>`_ for details.
     :vartype features: list[~azure.maps.route.models.RouteRangeFeaturesItem]
     :ivar error: The error detail.
-    :vartype error: ~azure.maps.route.models.ErrorDetail
+    :vartype error: ~azure.maps.route.models.CommonErrorDetail
     """
 
     optional_id: Optional[str] = rest_field(
@@ -3522,7 +3528,9 @@ class RouteRangeBatchResponseItem(_Model):
     )
     """``GeoJSON`` feature object that contains Geometry object and additional properties. Refer to
      `RFC 7946, Section 3.2 <https://www.rfc-editor.org/rfc/rfc7946#section-3.2>`_ for details."""
-    error: Optional["_models.ErrorDetail"] = rest_field(visibility=["read", "create", "update", "delete", "query"])
+    error: Optional["_models.CommonErrorDetail"] = rest_field(
+        visibility=["read", "create", "update", "delete", "query"]
+    )
     """The error detail."""
 
     @overload
@@ -3532,7 +3540,7 @@ class RouteRangeBatchResponseItem(_Model):
         optional_id: Optional[str] = None,
         type: Optional[Union[str, "_models.FeatureTypeEnum"]] = None,
         features: Optional[list["_models.RouteRangeFeaturesItem"]] = None,
-        error: Optional["_models.ErrorDetail"] = None,
+        error: Optional["_models.CommonErrorDetail"] = None,
     ) -> None: ...
 
     @overload
@@ -4358,7 +4366,7 @@ class SnapToRoadsBatchResponseItem(_Model):
      <https://www.rfc-editor.org/rfc/rfc7946#section-3.2>`_ for details.
     :vartype features: list[~azure.maps.route.models.SnapToRoadFeaturesItem]
     :ivar error: The error detail.
-    :vartype error: ~azure.maps.route.models.ErrorDetail
+    :vartype error: ~azure.maps.route.models.CommonErrorDetail
     """
 
     optional_id: Optional[str] = rest_field(
@@ -4376,7 +4384,9 @@ class SnapToRoadsBatchResponseItem(_Model):
     )
     """``GeoJSON`` feature object that contains Geometry object and additional properties. Refer to
      `RFC 7946, Section 3.2 <https://www.rfc-editor.org/rfc/rfc7946#section-3.2>`_ for details."""
-    error: Optional["_models.ErrorDetail"] = rest_field(visibility=["read", "create", "update", "delete", "query"])
+    error: Optional["_models.CommonErrorDetail"] = rest_field(
+        visibility=["read", "create", "update", "delete", "query"]
+    )
     """The error detail."""
 
     @overload
@@ -4386,7 +4396,7 @@ class SnapToRoadsBatchResponseItem(_Model):
         optional_id: Optional[str] = None,
         type: Optional[Union[str, "_models.FeatureTypeEnum"]] = None,
         features: Optional[list["_models.SnapToRoadFeaturesItem"]] = None,
-        error: Optional["_models.ErrorDetail"] = None,
+        error: Optional["_models.CommonErrorDetail"] = None,
     ) -> None: ...
 
     @overload
