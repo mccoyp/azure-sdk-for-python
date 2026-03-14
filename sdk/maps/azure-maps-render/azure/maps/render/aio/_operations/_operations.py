@@ -538,7 +538,7 @@ class _MapsRenderClientOperationsMixin(
 
     @distributed_trace_async
     async def get_copyright_caption(
-        self, format: Union[str, _models.ResponseFormat], *, client_id: Optional[str] = None, **kwargs: Any
+        self, format: Union[str, _models.ResponseFormat] = "json", *, client_id: Optional[str] = None, **kwargs: Any
     ) -> _models.CopyrightCaption:
         """Use to get copyright information to use when rendering a tile.
 
@@ -551,7 +551,7 @@ class _MapsRenderClientOperationsMixin(
         for displaying provider information on the map.
 
         :param format: Desired format of the response. Value can be either *json* or *xml*. Known
-         values are: "json" and "xml". Required.
+         values are: "json" and "xml". Default value is "json".
         :type format: str or ~azure.maps.render.models.ResponseFormat
         :keyword client_id: Indicates the account intended for use with the Microsoft Entra ID security
          model. This unique ID for the Azure Maps account can be obtained from the
@@ -1107,7 +1107,7 @@ class _MapsRenderClientOperationsMixin(
     @distributed_trace_async
     async def get_copyright_from_bounding_box(
         self,
-        format: Union[str, _models.ResponseFormat],
+        format: Union[str, _models.ResponseFormat] = "json",
         *,
         south_west: list[float],
         north_east: list[float],
@@ -1121,7 +1121,7 @@ class _MapsRenderClientOperationsMixin(
         the minimum and maximum longitude and latitude (EPSG-3857) coordinates.
 
         :param format: Desired format of the response. Value can be either *json* or *xml*. Known
-         values are: "json" and "xml". Required.
+         values are: "json" and "xml". Default value is "json".
         :type format: str or ~azure.maps.render.models.ResponseFormat
         :keyword south_west: Minimum coordinates (south-west point) of bounding box in latitude
          longitude
@@ -1208,7 +1208,7 @@ class _MapsRenderClientOperationsMixin(
     @distributed_trace_async
     async def get_copyright_for_tile(
         self,
-        format: Union[str, _models.ResponseFormat],
+        format: Union[str, _models.ResponseFormat] = "json",
         *,
         z: int,
         x: int,
@@ -1228,7 +1228,7 @@ class _MapsRenderClientOperationsMixin(
         groups of copyrights for some countries/regions.
 
         :param format: Desired format of the response. Value can be either *json* or *xml*. Known
-         values are: "json" and "xml". Required.
+         values are: "json" and "xml". Default value is "json".
         :type format: str or ~azure.maps.render.models.ResponseFormat
         :keyword z: Zoom level for the desired tile.
 
@@ -1328,7 +1328,7 @@ class _MapsRenderClientOperationsMixin(
     @distributed_trace_async
     async def get_copyright_for_world(
         self,
-        format: Union[str, _models.ResponseFormat],
+        format: Union[str, _models.ResponseFormat] = "json",
         *,
         client_id: Optional[str] = None,
         include_text: Optional[Union[str, _models.IncludeText]] = None,
@@ -1345,7 +1345,7 @@ class _MapsRenderClientOperationsMixin(
         groups of copyrights for some countries/regions.
 
         :param format: Desired format of the response. Value can be either *json* or *xml*. Known
-         values are: "json" and "xml". Required.
+         values are: "json" and "xml". Default value is "json".
         :type format: str or ~azure.maps.render.models.ResponseFormat
         :keyword client_id: Indicates the account intended for use with the Microsoft Entra ID security
          model. This unique ID for the Azure Maps account can be obtained from the
