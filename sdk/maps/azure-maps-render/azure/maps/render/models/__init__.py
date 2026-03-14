@@ -12,14 +12,51 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from ._patch import *  # pylint: disable=unused-wildcard-import
 
-from ._operations import RenderOperations  # type: ignore
 
+from ._models import (  # type: ignore
+    Copyright,
+    CopyrightCaption,
+    ErrorAdditionalInfo,
+    ErrorDetail,
+    ErrorResponse,
+    MapAttribution,
+    MapTileset,
+    RegionCopyrights,
+    RegionCopyrightsCountry,
+)
+
+from ._enums import (  # type: ignore
+    IncludeText,
+    LocalizedMapView,
+    MapTileSize,
+    MediaType,
+    ResponseFormat,
+    Tileset,
+    TilesetID,
+    TrafficTilesetId,
+)
 from ._patch import __all__ as _patch_all
 from ._patch import *
 from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
-    "RenderOperations",
+    "Copyright",
+    "CopyrightCaption",
+    "ErrorAdditionalInfo",
+    "ErrorDetail",
+    "ErrorResponse",
+    "MapAttribution",
+    "MapTileset",
+    "RegionCopyrights",
+    "RegionCopyrightsCountry",
+    "IncludeText",
+    "LocalizedMapView",
+    "MapTileSize",
+    "MediaType",
+    "ResponseFormat",
+    "Tileset",
+    "TilesetID",
+    "TrafficTilesetId",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])  # pyright: ignore
 _patch_sdk()

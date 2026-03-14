@@ -1,0 +1,4 @@
+directory: specification/maps/data-plane/Render
+commit: f688543187f1c98237fff9e8a712560b7ad9f363
+repo: Azure/azure-rest-api-specs
+additionalDirectories:
