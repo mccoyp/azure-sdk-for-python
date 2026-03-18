@@ -114,7 +114,7 @@ given the expressiveness of Python as a language. So, in practice, what should y
     - include the path to the `py.typed` in the
       MANIFEST.in ([example](https://github.com/Azure/azure-sdk-for-python/blob/main/sdk/core/azure-core/MANIFEST.in)).
       This is important as it ensures the `py.typed` is included in both the sdist/bdist.
-    - for packages using `pyproject.toml`, add `pytyped = ["py.typed"]` under the `[tool.azure-sdk-build]` section.
+    - for packages using `pyproject.toml`, add `pytyped = ["py.typed"]` under the `[tool.setuptools.package-data]` section.
       For packages still using `setup.py`, set `include_package_data=True` and `package_data={"azure.core": ["py.typed"]}` in the setup.py.
       Note that the key should be the namespace of where the `py.typed` file is found.
 
