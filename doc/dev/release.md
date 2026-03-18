@@ -39,10 +39,10 @@ Validate artifacts prior to clicking `approve` on the release stage for the pack
 
 To build a package manually:
 ```
-python .\build_package.py azure-mgmt-myservice
+python -m build sdk/<service-dir>/azure-mgmt-myservice
 ```
 
-This will a sdist and a wheel file. This requires `wheel` package installed in your environment.
+This will produce a sdist and a wheel file. This requires the `build` package installed in your environment (`pip install build`).
 
 If you want to manually release on a regular basis, you should create a .pypirc:
 ```
