@@ -25,9 +25,9 @@ class CountryRecord(_Model):
     :vartype code: str
     """
 
-    name: Optional[str] = rest_field(name="Name", visibility=["read"])
+    name: Optional[str] = rest_field(visibility=["read"])
     """country/region Name."""
-    code: Optional[str] = rest_field(name="Code", visibility=["read"])
+    code: Optional[str] = rest_field(visibility=["read"])
     """ISO-3166 2-letter country/region code for the country/region."""
 
 
@@ -118,13 +118,13 @@ class IanaId(_Model):
     :vartype has_zone1970_location: bool
     """
 
-    id: Optional[str] = rest_field(name="Id", visibility=["read"])
+    id: Optional[str] = rest_field(visibility=["read"])
     """Id property."""
-    is_alias: Optional[bool] = rest_field(name="IsAlias", visibility=["read"])
+    is_alias: Optional[bool] = rest_field(name="isAlias", visibility=["read"])
     """IsAlias property."""
-    alias_of: Optional[str] = rest_field(name="AliasOf", visibility=["read"])
+    alias_of: Optional[str] = rest_field(name="aliasOf", visibility=["read"])
     """AliasOf property."""
-    has_zone1970_location: Optional[bool] = rest_field(name="HasZone1970Location", visibility=["read"])
+    has_zone1970_location: Optional[bool] = rest_field(name="hasZone1970Location", visibility=["read"])
     """This attribute returns ``True`` if the IanaId has any country/zone associated with it."""
 
 
@@ -157,26 +157,26 @@ class ReferenceTime(_Model):
     :vartype sunset: ~datetime.datetime
     """
 
-    tag: Optional[str] = rest_field(name="Tag", visibility=["read"])
+    tag: Optional[str] = rest_field(visibility=["read"])
     """Time zone name in effect at the reference timestamp (i.e. PST or PDT depending whether Daylight
      Savings Time is in effect)."""
-    standard_offset: Optional[str] = rest_field(name="StandardOffset", visibility=["read"])
+    standard_offset: Optional[str] = rest_field(name="standardOffset", visibility=["read"])
     """UTC offset in effect at the ``ReferenceUTCTimestamp``."""
-    daylight_savings: Optional[str] = rest_field(name="DaylightSavings", visibility=["read"])
+    daylight_savings: Optional[str] = rest_field(name="daylightSavings", visibility=["read"])
     """Time saving in minutes in effect at the ``ReferenceUTCTimestamp``."""
-    wall_time: Optional[str] = rest_field(name="WallTime", visibility=["read"])
+    wall_time: Optional[str] = rest_field(name="wallTime", visibility=["read"])
     """Current wall time at the given time zone as shown in the ``Tag`` property."""
-    posix_tz_valid_year: Optional[int] = rest_field(name="PosixTzValidYear", visibility=["read"])
+    posix_tz_valid_year: Optional[int] = rest_field(name="posixTzValidYear", visibility=["read"])
     """The year this POSIX string is valid for. Note: A POSIX string will only be valid in the given
      year."""
-    posix_tz: Optional[str] = rest_field(name="PosixTz", visibility=["read"])
+    posix_tz: Optional[str] = rest_field(name="posixTz", visibility=["read"])
     """POSIX string used to set the time zone environment variable."""
-    sunrise: Optional[datetime.datetime] = rest_field(name="Sunrise", visibility=["read"], format="rfc3339")
+    sunrise: Optional[datetime.datetime] = rest_field(visibility=["read"], format="rfc3339")
     """Sunrise at the given time zone as shown in the ``Tag`` property, populated only when the call
      is ``byCoordinates``. The sunrise is described in the `ISO 8601
      <https://www.iso.org/iso-8601-date-and-time-format.html>`_ format. Note that the Timezone API
      does not return sunrise and sunset times when solar day is observed in the requested region."""
-    sunset: Optional[datetime.datetime] = rest_field(name="Sunset", visibility=["read"], format="rfc3339")
+    sunset: Optional[datetime.datetime] = rest_field(visibility=["read"], format="rfc3339")
     """Sunset at the given time zone as shown in the ``Tag`` property, populated only when the call is
      ``byCoordinates``. The sunset is described in the `ISO 8601
      <https://www.iso.org/iso-8601-date-and-time-format.html>`_ format. Note that the Timezone API
@@ -192,9 +192,9 @@ class RepresentativePoint(_Model):
     :vartype longitude: float
     """
 
-    latitude: Optional[float] = rest_field(name="Latitude", visibility=["read"])
+    latitude: Optional[float] = rest_field(visibility=["read"])
     """Latitude property."""
-    longitude: Optional[float] = rest_field(name="Longitude", visibility=["read"])
+    longitude: Optional[float] = rest_field(visibility=["read"])
     """Longitude property."""
 
 
@@ -213,15 +213,15 @@ class TimeTransition(_Model):
     :vartype utc_end: ~datetime.datetime
     """
 
-    tag: Optional[str] = rest_field(name="Tag", visibility=["read"])
+    tag: Optional[str] = rest_field(visibility=["read"])
     """Tag property."""
-    standard_offset: Optional[str] = rest_field(name="StandardOffset", visibility=["read"])
+    standard_offset: Optional[str] = rest_field(name="standardOffset", visibility=["read"])
     """StandardOffset property."""
-    daylight_savings: Optional[str] = rest_field(name="DaylightSavings", visibility=["read"])
+    daylight_savings: Optional[str] = rest_field(name="daylightSavings", visibility=["read"])
     """DaylightSavings property."""
-    utc_start: Optional[datetime.datetime] = rest_field(name="UtcStart", visibility=["read"], format="rfc3339")
+    utc_start: Optional[datetime.datetime] = rest_field(name="utcStart", visibility=["read"], format="rfc3339")
     """Start date, start time for this transition period."""
-    utc_end: Optional[datetime.datetime] = rest_field(name="UtcEnd", visibility=["read"], format="rfc3339")
+    utc_end: Optional[datetime.datetime] = rest_field(name="utcEnd", visibility=["read"], format="rfc3339")
     """End date, end time for this transition period."""
 
 
@@ -232,7 +232,7 @@ class TimezoneIanaVersionResult(_Model):
     :vartype version: str
     """
 
-    version: Optional[str] = rest_field(name="Version", visibility=["read"])
+    version: Optional[str] = rest_field(visibility=["read"])
     """Version property."""
 
 
@@ -260,26 +260,24 @@ class TimezoneId(_Model):
     :vartype time_transitions: list[~azure.maps.timezone.models.TimeTransition]
     """
 
-    id: Optional[str] = rest_field(name="Id", visibility=["read"])
+    id: Optional[str] = rest_field(visibility=["read"])
     """Id property."""
-    aliases: Optional[list[str]] = rest_field(name="Aliases", visibility=["read"])
+    aliases: Optional[list[str]] = rest_field(visibility=["read"])
     """An array of time zone ID aliases. Only returned when [options]=*zoneinfo* or
      *all*.
      
      Note: may be null."""
-    countries: Optional[list["_models.CountryRecord"]] = rest_field(name="Countries", visibility=["read"])
+    countries: Optional[list["_models.CountryRecord"]] = rest_field(visibility=["read"])
     """An array of country/region records. Only returned when [options]=*zoneinfo* or *all*."""
-    names: Optional["_models.TimezoneNames"] = rest_field(
-        name="Names", visibility=["read", "create", "update", "delete", "query"]
-    )
+    names: Optional["_models.TimezoneNames"] = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """Timezone names object."""
-    reference_time: Optional["_models.ReferenceTime"] = rest_field(name="ReferenceTime", visibility=["read"])
+    reference_time: Optional["_models.ReferenceTime"] = rest_field(name="referenceTime", visibility=["read"])
     """Details in effect at the local time."""
     representative_point: Optional["_models.RepresentativePoint"] = rest_field(
-        name="RepresentativePoint", visibility=["read"]
+        name="representativePoint", visibility=["read"]
     )
     """Representative point property."""
-    time_transitions: Optional[list["_models.TimeTransition"]] = rest_field(name="TimeTransitions", visibility=["read"])
+    time_transitions: Optional[list["_models.TimeTransition"]] = rest_field(name="timeTransitions", visibility=["read"])
     """Time zone DST transitions from [transitionsFrom] until timestamp + 1 year."""
 
     @overload
@@ -313,13 +311,13 @@ class TimezoneNames(_Model):
     :vartype daylight: str
     """
 
-    iso6391_language_code: Optional[str] = rest_field(name="ISO6391LanguageCode", visibility=["read"])
+    iso6391_language_code: Optional[str] = rest_field(name="iso6391LanguageCode", visibility=["read"])
     """The ISO 639-1 language code of the Names."""
-    generic: Optional[str] = rest_field(name="Generic", visibility=["read"])
+    generic: Optional[str] = rest_field(visibility=["read"])
     """Generic Name."""
-    standard: Optional[str] = rest_field(name="Standard", visibility=["read"])
+    standard: Optional[str] = rest_field(visibility=["read"])
     """Standard Name."""
-    daylight: Optional[str] = rest_field(name="Daylight", visibility=["read"])
+    daylight: Optional[str] = rest_field(visibility=["read"])
     """Daylight Name."""
 
 
@@ -334,13 +332,13 @@ class TimezoneResult(_Model):
     :vartype time_zones: list[~azure.maps.timezone.models.TimezoneId]
     """
 
-    version: Optional[str] = rest_field(name="Version", visibility=["read"])
+    version: Optional[str] = rest_field(visibility=["read"])
     """Version property."""
     reference_utc_timestamp: Optional[datetime.datetime] = rest_field(
-        name="ReferenceUtcTimestamp", visibility=["read"], format="rfc3339"
+        name="referenceUtcTimestamp", visibility=["read"], format="rfc3339"
     )
     """Reference Utc Timestamp property."""
-    time_zones: Optional[list["_models.TimezoneId"]] = rest_field(name="TimeZones", visibility=["read"])
+    time_zones: Optional[list["_models.TimezoneId"]] = rest_field(name="timeZones", visibility=["read"])
     """TimeZoneId array."""
 
 
@@ -355,12 +353,12 @@ class TimezoneWindows(_Model):
     :vartype iana_ids: list[str]
     """
 
-    windows_id: Optional[str] = rest_field(name="WindowsId", visibility=["read"])
+    windows_id: Optional[str] = rest_field(name="windowsId", visibility=["read"])
     """Windows Id property."""
-    territory: Optional[str] = rest_field(name="Territory", visibility=["read"])
+    territory: Optional[str] = rest_field(visibility=["read"])
     """Territory property."""
     iana_ids: Optional[list[str]] = rest_field(
-        name="IanaIds", visibility=["read", "create", "update", "delete", "query"]
+        name="ianaIds", visibility=["read", "create", "update", "delete", "query"]
     )
     """IanaIds array."""
 
