@@ -120,7 +120,7 @@ This is the most useful skip, but the following skip variables are also supporte
 
 ## The pyproject.toml
 
-Starting with [this pr](https://github.com/Azure/azure-sdk-for-python/pull/28345), which checks apply to which packages are now **established** in a `pyproject.toml`, right next to each package's `setup.py`. This not only allows devs to fine-tune which checks that are applied at a package-level, but also seriously reduces confusion as to which checks apply when.
+Starting with [this pr](https://github.com/Azure/azure-sdk-for-python/pull/28345), which checks apply to which packages are now **established** in a `pyproject.toml` in the package's root directory. This not only allows devs to fine-tune which checks that are applied at a package-level, but also seriously reduces confusion as to which checks apply when.
 
 We default to **enabling** most of our checks like `pylint`, `mypy`, etc. Due to that, most `pyproject.toml` settings will likely be **disabling** checks.
 
@@ -328,7 +328,7 @@ This test installs sdist of the package being tested and runs all tests cases in
 
 #### depends
 
-The `depends` check ensures all modules in a target package can be successfully imported. Actually installing and importing will verify that all package requirements are properly set in setup.py and that the `__all__` set for the package is properly defined. This test installs the package and its required packages, then executes `from <package-root-namespace> import *`. For example from `azure-core`, the following would be invoked:  `from azure.core import *`.
+The `depends` check ensures all modules in a target package can be successfully imported. Actually installing and importing will verify that all package requirements are properly set in `pyproject.toml` and that the `__all__` set for the package is properly defined. This test installs the package and its required packages, then executes `from <package-root-namespace> import *`. For example from `azure-core`, the following would be invoked:  `from azure.core import *`.
 
 Following is the command to run this check locally.
 
@@ -372,7 +372,7 @@ Following are the additional tests we run during nightly CI checks.
 
 This test makes sure that a package being developed works absolutely fine using latest released version of required Azure SDK package as long as there is a released version which satisfies the requirement specification. Workflow of this test is as follows:
 
-1. Identify if any azure SDK package is marked as required package in setup.py of current package being tested.
+1. Identify if any azure SDK package is marked as required package in `pyproject.toml` of current package being tested.
 Note: Any dependency mentioned only in dev_requirements are not considered to identify dependency.
 2. Identify latest released version of required azure sdk package on PyPI
 3. Install latest released version of required package instead of dev dependency to package in code repo
@@ -388,7 +388,7 @@ Steps to manually run this test locally:
 
 This test makes sure that a package being developed works absolutely fine using oldest released version of required Azure SDK package as long as there is a released version which satisfies the requirement specification. Workflow of this test is as follows:
 
-1. Identify if any azure SDK package is marked as required package in setup.py of current package being tested.
+1. Identify if any azure SDK package is marked as required package in `pyproject.toml` of current package being tested.
 Note: Any dependency mentioned only in dev_requirements are not considered to identify dependency.
 2. Identify oldest released version of required azure sdk package on PyPI
 3. Install oldest released version of required package instead of dev dependency to package in code repo

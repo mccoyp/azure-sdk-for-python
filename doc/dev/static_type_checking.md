@@ -114,8 +114,9 @@ given the expressiveness of Python as a language. So, in practice, what should y
     - include the path to the `py.typed` in the
       MANIFEST.in ([example](https://github.com/Azure/azure-sdk-for-python/blob/main/sdk/core/azure-core/MANIFEST.in)).
       This is important as it ensures the `py.typed` is included in both the sdist/bdist.
-    - set `include_package_data=True` and `package_data={"azure.core": ["py.typed"]}` in the setup.py.
-      Note that the key should be the namespace of where the `py.typed` file is found.
+    - add a `[tool.setuptools.package-data]` section to `pyproject.toml` with the `py.typed` file listed.
+      For example: `pytyped = ["py.typed"]`. Note the key name is `pytyped` (the package data key for `py.typed` files).
+      See the [template pyproject.toml](https://github.com/Azure/azure-sdk-for-python/blob/main/sdk/template/azure-template/pyproject.toml) for a reference.
 
 2) Add type hints anywhere in the source code where unit tests are worth writing. Consider typing/mypy as "free" tests
    for your library so focusing typing on high density/important areas of the code helps in detecting bugs.
@@ -157,14 +158,13 @@ from typing_extensions import Protocol
 ```
 
 If using `typing-extensions`, you must add it to the install dependencies for your library (do not rely on install by `azure-core`)
-[[example](https://github.com/Azure/azure-sdk-for-python/blob/5fd52b9ee039f8711322bd7ea43af763d326291a/sdk/eventhub/azure-eventhub/setup.py#L73)].
+[[example](https://github.com/Azure/azure-sdk-for-python/blob/main/sdk/eventhub/azure-eventhub/pyproject.toml)].
 When importing a backported type into code, `typing-extensions` does a try/except on your behalf (either importing
 from `typing` if supported, or `typing-extensions` if the Python version is too old) so there is no need to do this
 check yourself.
 
 See the [typing-extensions](https://github.com/python/typing_extensions) docs to check what has been
-backported. This document calls out which types are needed through `typing-extensions` based on support of Python 3.7+.
-Some commonly used types imported from `typing-extensions` are Literal, TypedDict, Protocol, runtime_checkable, and Final.
+backported. Some commonly used types imported from `typing-extensions` are Literal, TypedDict, Protocol, runtime_checkable, and Final.
 
 ## Install and run type checkers on your client library code
 
