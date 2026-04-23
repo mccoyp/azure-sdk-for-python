@@ -449,7 +449,7 @@ Workflow of this test is as follows when running regression for an SDK package.
 Steps to manually run regression test locally:
 
 1. Run below command from your git code repo to generate the wheel of package being developed. Currently we have restricted to have prebuilt wheel.
-`./scripts/devops_tasks/build_packages.py --service= <service-name> -d <out-folder>`
+`python -m build sdk/<service-name>/<package-name> --outdir <out-folder>`
 2. Run below command to start regression test locally
 `./scripts/devops_tasks/test_regression.py azure-* --service=<service-name> --whl-dir=<out-folder given above in step 2>`
 
