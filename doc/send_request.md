@@ -129,7 +129,7 @@ try:
     json_response = response.json()
     # Play with your response!
     print(json_response["language"])
-except HttpResponseError:
+except HttpResponseError as e:
     print(str(e))
 ```
 
@@ -154,11 +154,11 @@ with DefaultAzureCredential() as credential:
 
         try:
             response.raise_for_status()
-            await response.load_body()
+            await response.read()
             json_response = response.json()  # returns an azure.core.rest.AsyncHttpResponse
             # Play with your response!
             print(json_response["language"])
-        except HttpResponseError:
+        except HttpResponseError as e:
             print(str(e))
 ```
 
